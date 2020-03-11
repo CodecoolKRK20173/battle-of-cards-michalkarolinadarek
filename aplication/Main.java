@@ -2,6 +2,6 @@ package aplication;
 
 class Main{
     public static void main(String[] args){
-        System.out.println("bzety");
+        System.out.println("bzetydfdfslfkdsbhjkgdshlkjg");
     }
 }
