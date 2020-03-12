@@ -13,7 +13,7 @@ class Card implements Comparable {
     final Integer ID_PANIC_LEVEL = 5;
     
     String name;
-    HashMap<String, Integer> parametersList;
+    HashMap<String, Integer> parametersMap;
     Boolean hasOwner;
     Integer type;
 
@@ -22,9 +22,9 @@ class Card implements Comparable {
         this.name = parametersCard[ID_NAME];
 
         String[] titles = {"deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
-        this.parametersList = new HashMap<String, Integer>();
+        this.parametersMap = new HashMap<String, Integer>();
         for(int index = 1; index < parametersCard.length ; index++){
-            this.parametersList.put(titles[index - 1], Integer.parseInt(parametersCard[index]));
+            this.parametersMap.put(titles[index - 1], Integer.parseInt(parametersCard[index]));
         }
         this.hasOwner = false;
     }
