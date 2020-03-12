@@ -1,7 +1,7 @@
 package cards;
 import java.util.Comparator;
 
-class CardInfectvityComparator implements Comparator{
+public class CardInfectvityComparator implements Comparator{
 
     @Override
     public int compare(Object arg0, Object arg1) {

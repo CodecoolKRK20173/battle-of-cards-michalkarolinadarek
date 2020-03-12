@@ -2,7 +2,7 @@ package cards;
 
 import java.util.HashMap;
 
-class Card implements Comparable {
+public class Card implements Comparable<Card> {
     
 
     final Integer ID_NAME = 0;
@@ -19,7 +19,7 @@ class Card implements Comparable {
     String[] titles = {"deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
 
 
-    Card(String[] parametersCard){
+    public Card(String[] parametersCard){
         this.name = parametersCard[ID_NAME];
 
         
@@ -31,7 +31,7 @@ class Card implements Comparable {
     }
 
     @Override
-    public int compareTo(Object arg0) {
+    public int compareTo(Card o) {
         // TODO Auto-generated method stub
         return 0;
     }

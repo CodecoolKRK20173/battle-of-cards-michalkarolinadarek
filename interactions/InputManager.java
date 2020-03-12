@@ -1,5 +1,5 @@
 package interactions;
 
-class InputManager{
+public class InputManager{
     
 }
