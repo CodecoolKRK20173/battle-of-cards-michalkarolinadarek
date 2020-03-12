@@ -1,12 +1,33 @@
 package cards;
-class Card implements Comparable{
 
+import java.util.HashMap;
+
+class Card implements Comparable {
+    
+
+    final Integer ID_NAME = 0;
+    final Integer ID_DEATHS = 1;
+    final Integer ID_INCUBATION = 2;
+    final Integer ID_INFECTVITY = 3;
+    final Integer ID_PAINFULNESS = 4;
+    final Integer ID_PANIC_LEVEL = 5;
+    
     String name;
-    Integer deaths;
-    Integer incubation;
-    Integer infectvity;
-    Integer painfulness;
-    Integer panicLevel;
+    HashMap<String, Integer> parametersList;
+    Boolean hasOwner;
+    Integer type;
+
+
+    Card(String[] parametersCard){
+        this.name = parametersCard[ID_NAME];
+
+        String[] titles = {"deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
+        this.parametersList = new HashMap<String, Integer>();
+        for(int index = 1; index < parametersCard.length ; index++){
+            this.parametersList.put(titles[index - 1], Integer.parseInt(parametersCard[index]));
+        }
+        this.hasOwner = false;
+    }
 
     @Override
     public int compareTo(Object arg0) {
