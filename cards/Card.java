@@ -16,12 +16,13 @@ class Card implements Comparable {
     HashMap<String, Integer> parametersMap;
     Boolean hasOwner;
     Integer type;
+    String[] titles = {"deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
 
 
     Card(String[] parametersCard){
         this.name = parametersCard[ID_NAME];
 
-        String[] titles = {"deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
+        
         this.parametersMap = new HashMap<String, Integer>();
         for(int index = 1; index < parametersCard.length ; index++){
             this.parametersMap.put(titles[index - 1], Integer.parseInt(parametersCard[index]));
@@ -33,6 +34,15 @@ class Card implements Comparable {
     public int compareTo(Object arg0) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    public String toString(){
+        String output = name + "\n";
+
+        for(String key: titles){
+            output += parametersMap.get(key) + "\n";
+        }
+        return output;
     }
     
 }
