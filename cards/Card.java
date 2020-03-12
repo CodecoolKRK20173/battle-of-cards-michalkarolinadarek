@@ -50,4 +50,12 @@ public class Card implements Comparable<Card> {
         return output;
     }
     
+    public boolean equals(){
+
+        return true;
+    }
+
+    public int hashCode(){
+        return 0;
+    }
 }
