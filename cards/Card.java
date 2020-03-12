@@ -13,7 +13,7 @@ public class Card implements Comparable<Card> {
     final Integer ID_PANIC_LEVEL = 5;
     
     String name;
-    HashMap<String, Integer> parametersMap;
+    private HashMap<String, Integer> parametersMap;
     Boolean hasOwner;
     Integer type;
     String[] titles = {"deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
