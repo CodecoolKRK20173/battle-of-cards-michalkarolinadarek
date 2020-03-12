@@ -2,7 +2,7 @@ package cards;
 
 import java.util.Comparator;
 
-class CardPainfulnessComparator implements Comparator{
+public class CardPainfulnessComparator implements Comparator{
 
     @Override
     public int compare(Object arg0, Object arg1) {

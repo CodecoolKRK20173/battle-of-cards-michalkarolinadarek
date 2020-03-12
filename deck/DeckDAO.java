@@ -1,4 +1,4 @@
 package deck;
-class DeckDAO implements DeckDAOInterface{
+public class DeckDAO implements DeckDAOInterface{
     
 }

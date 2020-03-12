@@ -1,7 +1,7 @@
 package deck;
 import java.util.Iterator;
 
-class DeckIterator implements Iterator{
+public class DeckIterator implements Iterator{
 
     @Override
     public boolean hasNext() {

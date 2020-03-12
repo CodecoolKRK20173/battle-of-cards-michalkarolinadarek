@@ -1,5 +1,9 @@
 package interactions;
+import cards.Card;
 
-class View{
-    
+public class View{
+    public void print(Card card) {
+        String[] lines = card.toString().split("\n");
+        System.out.println(java.util.Arrays.toString(lines));
+    }
 }

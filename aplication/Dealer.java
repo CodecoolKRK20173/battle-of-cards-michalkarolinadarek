@@ -1,6 +1,6 @@
 package aplication;
 
-class Dealer{
+public class Dealer{
     
 
 }
