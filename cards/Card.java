@@ -31,9 +31,14 @@ public class Card implements Comparable<Card> {
     }
 
     @Override
-    public int compareTo(Card o) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int compareTo(Card secondCard) {
+        if(this.name.compareTo(secondCard.name) >= 1){
+            return 1;
+        }
+        else if(this.name.compareTo(secondCard.name) == 0){
+            return 0;
+        }
+        return -1;
     }
 
     public String toString(){

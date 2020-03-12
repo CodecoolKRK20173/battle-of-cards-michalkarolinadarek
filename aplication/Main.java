@@ -13,5 +13,6 @@ public class Main{
         View view = new View();
         view.print(card);
         view.print(card, card2);
+        view.print(String.format("%d", card2.compareTo(card)));
     }
 }
