@@ -2,7 +2,7 @@ package cards;
 public class Card implements Comparable<Card>{
 
     public String toString() {
-        String cardString = "Przykładowa Nazwa \nStat1 \nStat2 \nStat3 \nStat3";
+        String cardString = "Przykładowa Nazwa\nStat1\nStat2\nStat3\nStat3";
         return cardString;
     }
 
