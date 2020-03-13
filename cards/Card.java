@@ -58,4 +58,28 @@ public class Card implements Comparable<Card> {
     public int hashCode(){
         return 0;
     }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public int getDeaths(){
+        return parametersMap.get(titles[ID_DEATHS]);
+    }
+
+    public int getIncubation(){
+        return parametersMap.get(titles[ID_INCUBATION]);
+    }
+
+    public int getInfectvity(){
+        return parametersMap.get(titles[ID_INFECTVITY]);
+    }
+
+    public int getPainfulness(){
+        return parametersMap.get(titles[ID_PAINFULNESS]);
+    }
+
+    public int getPanicLevel(){
+        return parametersMap.get(titles[ID_PANIC_LEVEL]);
+    }
 }
