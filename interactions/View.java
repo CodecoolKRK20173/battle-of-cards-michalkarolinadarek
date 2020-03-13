@@ -1,7 +1,5 @@
 package interactions;
 
-import java.util.Scanner;
-
 import cards.Card;
 
 public class View{
@@ -34,26 +32,15 @@ public class View{
         System.out.println(" " + "└" + "─".repeat(32) + "┘" + " " + "└" + "─".repeat(32) + "┘");
     }
 
+    public void print(String[] list, String title) {
+        System.out.println("\n " + title);
+        for (int index = 1; index <= list.length; index++) {
+            System.out.println(String.format(" %d. %s", index, list[(index - 1)]));
+        }
+    }
+
     public void clearScrean() {
         System.out.print("\033[H\033[2J");  
         System.out.flush();
-    }
-
-    public String getStringInput(String message) {
-        System.out.println(" " + message);
-        System.out.print(" ");
-        Scanner scannerFromUser = new Scanner(System.in);
-        String input = scannerFromUser.nextLine();
-        
-        return input;
-    }
-
-    public int getIntInput(String message) {
-        System.out.println(" " + message);
-        System.out.print(" ");
-        Scanner scannerFromUser = new Scanner(System.in);
-        int input = scannerFromUser.nextInt();
-        
-        return input;
     }
 }
