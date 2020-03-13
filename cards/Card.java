@@ -1,5 +1,5 @@
 package cards;
-class Card implements Comparable{
+public class Card implements Comparable{
 
     @Override
     public int compareTo(Object arg0) {
