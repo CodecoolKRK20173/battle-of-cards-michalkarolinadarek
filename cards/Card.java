@@ -64,7 +64,11 @@ public class Card implements Comparable<Card> {
     }
 
     public int hashCode(){
-        return 0;
+        int hash = 7;
+        hash = 31 * hash + name.length();
+        for(String param :titles)    
+            hash = 31 * hash + parametersMap.get(param);  
+        return hash;
     }
 
     public String getName(){
