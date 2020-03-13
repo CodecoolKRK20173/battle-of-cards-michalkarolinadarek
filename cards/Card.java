@@ -20,7 +20,7 @@ public class Card implements Comparable<Card> {
 
     public Card(String[] parametersCard){
         this.name = parametersCard[0]; // The first value is a name
-        this.type = 1; 
+        this.type = 1; // This have to remove or set to default value!
 
         
         this.parametersMap = new HashMap<String, Integer>();
@@ -96,5 +96,13 @@ public class Card implements Comparable<Card> {
 
     public int getPanicLevel(){
         return parametersMap.get(titles[ID_PANIC_LEVEL]);
+    }
+
+    public int getType(){
+        return type;
+    }
+
+    public void setType(int valueOfType){
+        this.type = valueOfType;
     }
 }
