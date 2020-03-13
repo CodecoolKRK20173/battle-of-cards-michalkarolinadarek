@@ -14,5 +14,6 @@ public class Main{
         view.print(card);
         view.print(card, card2);
         view.print(String.format("%d", card2.compareTo(card)));
+        view.print(String.format("%d", card2.getPanicLevel()));
     }
 }

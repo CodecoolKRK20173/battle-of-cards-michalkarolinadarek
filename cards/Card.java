@@ -5,12 +5,11 @@ import java.util.HashMap;
 public class Card implements Comparable<Card> {
     
 
-    final Integer ID_NAME = 0;
-    final Integer ID_DEATHS = 1;
-    final Integer ID_INCUBATION = 2;
-    final Integer ID_INFECTVITY = 3;
-    final Integer ID_PAINFULNESS = 4;
-    final Integer ID_PANIC_LEVEL = 5;
+    final Integer ID_DEATHS = 0;
+    final Integer ID_INCUBATION = 1;
+    final Integer ID_INFECTVITY = 2;
+    final Integer ID_PAINFULNESS = 3;
+    final Integer ID_PANIC_LEVEL = 4;
     
     String name;
     private HashMap<String, Integer> parametersMap;
@@ -20,7 +19,7 @@ public class Card implements Comparable<Card> {
 
 
     public Card(String[] parametersCard){
-        this.name = parametersCard[ID_NAME];
+        this.name = parametersCard[0]; // The first value is a name 
 
         
         this.parametersMap = new HashMap<String, Integer>();
