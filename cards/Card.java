@@ -12,14 +12,15 @@ public class Card implements Comparable<Card> {
     final Integer ID_PANIC_LEVEL = 4;
     
     String name;
-    private HashMap<String, Integer> parametersMap;
+    HashMap<String, Integer> parametersMap;
     Boolean hasOwner;
     Integer type;
     String[] titles = {"deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
 
 
     public Card(String[] parametersCard){
-        this.name = parametersCard[0]; // The first value is a name 
+        this.name = parametersCard[0]; // The first value is a name
+        this.type = 1; 
 
         
         this.parametersMap = new HashMap<String, Integer>();
@@ -49,8 +50,16 @@ public class Card implements Comparable<Card> {
         return output;
     }
     
-    public boolean equals(){
-
+    public boolean equals(Card secondCard){
+        if(!this.parametersMap.equals(secondCard.parametersMap)){
+            return false;
+        }
+        if(!this.name.equals(secondCard.name) ? true : false){
+            return false;
+        }
+        if(!this.type.equals(secondCard.type) ? true : false){
+            return false;
+        }
         return true;
     }
 
