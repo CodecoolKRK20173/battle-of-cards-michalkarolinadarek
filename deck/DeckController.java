@@ -1,4 +1,4 @@
 package deck;
-class DeckController{
+public class DeckController{
     
 }
