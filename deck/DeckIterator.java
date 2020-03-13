@@ -1,18 +1,29 @@
 package deck;
+
 import java.util.Iterator;
+import java.util.List;
 
-class DeckIterator implements Iterator{
+import cards.Card;
 
+class DeckIterator implements Iterator<Card>{
+
+    int index = 0;
+    List<Card> viruses;
+
+    DeckIterator(DeckDAO deckdao){
+        this.viruses = deckdao.deck;
+
+    }
     @Override
     public boolean hasNext() {
-        // TODO Auto-generated method stub
-        return false;
+      
+        return index < viruses.size();
     }
 
     @Override
-    public Object next() {
-        // TODO Auto-generated method stub
-        return null;
+    public Card next() {
+        // index++;
+        return viruses.get(index++);
     }
 
 }
