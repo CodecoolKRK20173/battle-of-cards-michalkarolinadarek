@@ -51,6 +51,9 @@ public class Card implements Comparable<Card> {
     }
     
     public boolean equals(Card secondCard){
+        if(secondCard == null){
+            return false;
+        }
         if(!this.parametersMap.equals(secondCard.parametersMap)){
             return false;
         }
