@@ -2,12 +2,11 @@ package cards;
 
 import java.util.Comparator;
 
-public class CardPainfulnessComparator implements Comparator{
+public class CardPainfulnessComparator implements Comparator<Card>{
 
     @Override
-    public int compare(Object arg0, Object arg1) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int compare(Card card1, Card card2) {
+        return card1.getPainfulness() - card2.getPainfulness();
     }
     
 }
