@@ -57,10 +57,10 @@ public class Card implements Comparable<Card> {
         if(!this.parametersMap.equals(secondCard.parametersMap)){
             return false;
         }
-        if(!this.name.equals(secondCard.name) ? true : false){
+        if(!this.name.equals(secondCard.name)){
             return false;
         }
-        if(!this.type.equals(secondCard.type) ? true : false){
+        if(!this.type.equals(secondCard.type)){
             return false;
         }
         return true;
