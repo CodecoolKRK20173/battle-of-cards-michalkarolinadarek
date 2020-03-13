@@ -30,6 +30,5 @@ public class Main{
         Comparator<Card> comp = new CardDeathsComparator();
         comp = new CardIncubationComparator();
         view.print(String.format("%d", comp.compare(card1, card2)));
-
     }
 }
