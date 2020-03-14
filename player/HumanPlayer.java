@@ -27,8 +27,12 @@ class HumanPlayer extends AbstractPlayer {
 
     @Override
     public Card getTopCard() {
-        // TODO Auto-generated method stub
-        return null;
+        Card returnCard = hand.removeCard();
+        return returnCard;
+    }
+
+    public String getName(){
+        return name;
     }
 
 }
