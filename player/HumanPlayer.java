@@ -4,7 +4,7 @@ import java.util.List;
 
 import cards.Card;
 
-class HumanPlayer extends AbstractPlayer {
+public class HumanPlayer extends AbstractPlayer {
 
     private String name;
 
