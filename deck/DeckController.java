@@ -7,14 +7,22 @@ import cards.Card;
 
 class DeckController {
     List<Card> DAOcards;
-    List<Card> deckOfCards;
+    List<Card> deckOfCopyCards;
+    DeckDAO deckdao;
 
     DeckController(DeckDAO daodao){
-    this.DAOcards = daodao.deck;  
-    deckOfCards = new ArrayList<>();      
+    this.DAOcards = daodao.deck; 
+    this.deckdao = daodao; 
+    deckOfCopyCards = new ArrayList<>();      
     }
 
-    public void createDeckOfCards(){
-            
+    public void createDeckOfCards() throws CloneNotSupportedException {
+        for(Card cardObject : DAOcards){
+            if(cardObject.getType() == 1){
+                Card cardClone = (Card)cardObject.clone();
+                deckOfCopyCards.add(cardClone);
+
+            }
+        }
     }
 }
