@@ -5,27 +5,27 @@ import java.util.HashMap;
 public class Card implements Comparable<Card>,Cloneable {
     
 
-    final Integer ID_DEATHS = 0;
-    final Integer ID_INCUBATION = 1;
-    final Integer ID_INFECTVITY = 2;
-    final Integer ID_PAINFULNESS = 3;
-    final Integer ID_PANIC_LEVEL = 4;
+    final Integer ID_DEATHS = 2;
+    final Integer ID_INCUBATION = 3;
+    final Integer ID_INFECTVITY = 4;
+    final Integer ID_PAINFULNESS = 5;
+    final Integer ID_PANIC_LEVEL = 6;
     
     String name;
     HashMap<String, Integer> parametersMap;
     Boolean hasOwner;
     Integer type;
-    String[] titles = {"deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
+    String[] titles = {"name", "type", "deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
 
 
     public Card(String[] parametersCard){
         this.name = parametersCard[0]; // The first value is a name
-        this.type = 1; // This have to remove or set to default value!
+        this.type = Integer.parseInt(parametersCard[1]); // The second value is a type
 
         
         this.parametersMap = new HashMap<String, Integer>();
-        for(int index = 1; index < parametersCard.length ; index++){
-            this.parametersMap.put(titles[index - 1], Integer.parseInt(parametersCard[index]));
+        for(int index = 2; index < titles.length ; index++){
+            this.parametersMap.put(titles[index], Integer.parseInt(parametersCard[index]));
         }
         this.hasOwner = false;
     }
@@ -48,7 +48,8 @@ public class Card implements Comparable<Card>,Cloneable {
         String output = name + "\n";
 
         for(String key: titles){
-            output += parametersMap.get(key) + "\n";
+            if(parametersMap.containsKey(key))
+                output += parametersMap.get(key) + "\n";
         }
         return output;
     }
@@ -72,8 +73,10 @@ public class Card implements Comparable<Card>,Cloneable {
     public int hashCode(){
         int hash = 7;
         hash = 31 * hash + name.length();
-        for(String param :titles)    
-            hash = 31 * hash + parametersMap.get(param);  
+        for(String param :titles){
+            if(parametersMap.containsKey(param))
+                hash = 31 * hash + parametersMap.get(param);  
+        }    
         return hash;
     }
 
