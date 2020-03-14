@@ -11,9 +11,9 @@ class DeckController {
     DeckDAO deckdao;
 
     DeckController(DeckDAO daodao){
-    this.DAOcards = daodao.deck; 
-    this.deckdao = daodao; 
-    deckOfCopyCards = new ArrayList<>();      
+        this.DAOcards = daodao.deck; 
+        this.deckdao = daodao; 
+        deckOfCopyCards = new ArrayList<>();      
     }
 
     public void createDeckOfCards() throws CloneNotSupportedException {
