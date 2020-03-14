@@ -10,6 +10,9 @@ class HumanPlayer extends AbstractPlayer {
 
     public HumanPlayer(String name){
         this.name = name;
+        usedPile = new UsedPile();
+        hand = new Hand(usedPile);
+
     }
 
     @Override
@@ -18,9 +21,8 @@ class HumanPlayer extends AbstractPlayer {
     }
 
     @Override
-    public void takeWonCard() {
-        // TODO Auto-generated method stub
-
+    public void takeWonCard(Card card) {
+        usedPile.addToUsedPile(card);
     }
 
     @Override

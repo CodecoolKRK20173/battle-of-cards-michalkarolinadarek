@@ -10,7 +10,7 @@ public abstract class AbstractPlayer {
 
     public abstract void setCardToHand(List<Card> cardForPlayer);
 
-    public abstract void takeWonCard();
+    public abstract void takeWonCard(Card card);
 
     public abstract Card getTopCard(); 
 }
