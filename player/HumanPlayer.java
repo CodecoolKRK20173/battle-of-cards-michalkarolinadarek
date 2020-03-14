@@ -1,5 +1,7 @@
 package player;
 
+import java.util.List;
+
 import cards.Card;
 
 class HumanPlayer extends AbstractPlayer {
@@ -11,9 +13,8 @@ class HumanPlayer extends AbstractPlayer {
     }
 
     @Override
-    public void takeCardToHand() {
-        // TODO Auto-generated method stub
-
+    public void setCardToHand(List<Card> cardForPlayer) {
+        hand.setListOfCards(cardForPlayer);
     }
 
     @Override

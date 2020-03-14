@@ -1,12 +1,14 @@
 package player;
 
+import java.util.List;
+
 import cards.Card;
 
 public abstract class AbstractPlayer {
     protected Hand hand;
     protected UsedPile usedPile;
 
-    public abstract void takeCardToHand();
+    public abstract void setCardToHand(List<Card> cardForPlayer);
 
     public abstract void takeWonCard();
 
