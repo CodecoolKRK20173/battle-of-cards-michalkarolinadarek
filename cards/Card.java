@@ -15,7 +15,7 @@ public class Card implements Comparable<Card>,Cloneable {
     HashMap<String, Integer> parametersMap;
     Boolean hasOwner;
     Integer type;
-    String[] titles = {"name", "type", "deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
+    private String[] titles = {"name", "type", "deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
 
 
     public Card(String[] parametersCard){
