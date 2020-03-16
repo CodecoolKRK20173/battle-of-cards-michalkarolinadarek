@@ -49,8 +49,7 @@ public class DeckController {
             }
         }
         Card randomCardforPlayer = leftOvers.get(random.nextInt(leftOvers.size())); 
-                if(randomCardforPlayer.getHasOwner()==true){
-        }
+
         return randomCardforPlayer;
     }
    
@@ -63,13 +62,16 @@ public class DeckController {
             ArrayList<Card> playerList = new ArrayList<>();
             forDealer.add(playerList);
         }
-        for(int i = 0; i <= countOfPLeayers * numberOfCards; i++){
+        for(int i = 1; i <= countOfPLeayers * numberOfCards; i++){
             if(turnSwitcher < countOfPLeayers) {
                 Card randomCardforPlayer = getRandomCard();         //gets random card for Player
                 markAsHasOwner(randomCardforPlayer);                // change hasOwner atribute to true
                 forDealer.get(turnSwitcher).add(randomCardforPlayer);          //send random card to each player one by one
                 turnSwitcher++;
-            } else {turnSwitcher = 0;}
+            } else {
+                turnSwitcher = 0;
+                i--;
+            }
             
         }
     }
