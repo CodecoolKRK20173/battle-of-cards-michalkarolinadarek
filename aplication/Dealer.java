@@ -12,6 +12,7 @@ public class Dealer{
     Dealer(){
         view = new View();
         input = new InputManager();
+        // deckController = new DeckController();
 
         setPlayers(2);
         prepareGame();
@@ -50,7 +51,7 @@ public class Dealer{
         // na podstawie wygranej bierze kartę od przegranego i oddaje ją wygranemu, 
         // oraz przekłada wygranemu jego kartę do usedPile (też można zamknąć w oddzielną metodę)
 
-        
+
     // changeCurrentPlayer()
         
 
