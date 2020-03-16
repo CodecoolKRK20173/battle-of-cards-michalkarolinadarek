@@ -3,7 +3,6 @@ package cards;
 import java.util.HashMap;
 
 public class Card implements Comparable<Card>,Cloneable {
-    
 
     final Integer ID_DEATHS = 2;
     final Integer ID_INCUBATION = 3;
@@ -18,17 +17,17 @@ public class Card implements Comparable<Card>,Cloneable {
     private String[] titles = {"name", "type", "deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
 
 
-    public Card(String[] parametersCard){
-        this.name = parametersCard[0]; // The first value is a name
-        this.type = Integer.parseInt(parametersCard[1]); // The second value is a type
+    public Card(String[] cardParameters){
+        this.name = cardParameters[0]; // The first value is a name
+        this.type = Integer.parseInt(cardParameters[1]); // The second value is a type
 
-        
         this.parametersMap = new HashMap<String, Integer>();
         for(int index = 2; index < titles.length ; index++){
-            this.parametersMap.put(titles[index], Integer.parseInt(parametersCard[index]));
+            this.parametersMap.put(titles[index], Integer.parseInt(cardParameters[index]));
         }
         this.hasOwner = false;
     }
+
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
@@ -45,11 +44,11 @@ public class Card implements Comparable<Card>,Cloneable {
     }
 
     public String toString(){
-        String output = name + "\n";
+        String output = name.toUpperCase() + "\n";
 
         for(String key: titles){
             if(parametersMap.containsKey(key))
-                output += parametersMap.get(key) + "\n";
+                output += key + ": " + parametersMap.get(key) + "\n";
         }
         return output;
     }
@@ -84,6 +83,7 @@ public class Card implements Comparable<Card>,Cloneable {
         return this.name;
     }
 
+    
     public int getDeaths(){
         return parametersMap.get(titles[ID_DEATHS]);
     }
@@ -112,11 +112,11 @@ public class Card implements Comparable<Card>,Cloneable {
         this.type = valueOfType;
     }
 
-    public void setOwner(boolean valueOfOwner){
+    public void setHasOwner(boolean valueOfOwner){
         this.hasOwner = valueOfOwner;
     }
 
-    public boolean getOwner(){
+    public boolean getHasOwner(){
         return hasOwner;
     }
 

@@ -6,7 +6,7 @@ import java.util.Random;
 
 import cards.Card;
 
-class DeckController {
+public class DeckController {
     DeckDAO deckdao;
     List<Card> DAOcards;
     List<Card> deckOfCopyCards;
@@ -16,9 +16,9 @@ class DeckController {
     int turnSwitcher = 0;
 
     
-    DeckController(DeckDAO daodao){
-        this.deckdao = daodao; 
-        this.DAOcards = daodao.deck; 
+    DeckController(String filepath){
+        this.deckdao = new DeckDAO(filepath); 
+        this.DAOcards = deckdao.deck; 
 
         deckOfCopyCards = new ArrayList<>(); 
         cardsForPlayers = new ArrayList<>(); 
@@ -26,6 +26,8 @@ class DeckController {
         random = new Random();
     }
 
+    // Po co mamy cardsOfPlayers?
+    // Skoro DAOcards ma unikalne karty, deckOfCopyCards ma karty po skopiowaniu a forDealer ma karty dla playerów?
 
     public void createDeckOfCopyCards() throws CloneNotSupportedException {
         for(Card cardObject : DAOcards){
@@ -41,12 +43,12 @@ class DeckController {
     public Card getRandomCard(){
         ArrayList<Card> leftOvers = new ArrayList<>();
         for (Card card : cardsForPlayers){
-            if(card.getOwner() == false){
+            if(card.getHasOwner() == false){
                 leftOvers.add(card);
             }
         }
-         Card randomCardforPlayer = leftOvers.get(random.nextInt(leftOvers.size())); 
-                if(randomCardforPlayer.getOwner()==true){
+        Card randomCardforPlayer = leftOvers.get(random.nextInt(leftOvers.size())); 
+                if(randomCardforPlayer.getHasOwner()==true){
         }
         return randomCardforPlayer;
     }
@@ -61,19 +63,19 @@ class DeckController {
             forDealer.add(playerList);
         }
         for(int i = 0; i <= countOfPLeayers * numberOfCards; i++){
-            if(turnSwitcher < countOfPLeayers){
+            if(turnSwitcher < countOfPLeayers) {
                 Card randomCardforPlayer = getRandomCard();         //gets random card for Player
                 markAsHasOwner(randomCardforPlayer);                // change hasOwner atribute to true
                 forDealer.get(turnSwitcher).add(randomCardforPlayer);          //send random card to each player one by one
                 turnSwitcher++;
-            }else{turnSwitcher = 0;}
+            } else {turnSwitcher = 0;}
             
         }
     }
    
    
     public void markAsHasOwner(Card randomCardforPlayer){
-        randomCardforPlayer.setOwner(true);
+        randomCardforPlayer.setHasOwner(true);
     }
 
 }

@@ -19,6 +19,7 @@ class UsedPile{
         count++;
     }
 
+    // Czy potrzebujemy count jako oddzielne pole? Nie wystarczy usedCards.size()?
     int countOfCards(){
         return count;
     }
