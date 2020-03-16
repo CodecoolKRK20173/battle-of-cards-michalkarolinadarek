@@ -12,6 +12,11 @@ class Maintest {
         DeckDAO decker = new DeckDAO("deck/virus.csv");
         
         decker.getAllCardFromFile();
+
+        Iterator<Card> it = new DeckIterator(decker);
+        while(it.hasNext()){
+            System.out.println(it.next().getName());
+=======
         DeckController deckcontroller = new DeckController(decker);
 
         deckcontroller.createDeckOfCopyCards();
@@ -35,6 +40,3 @@ class Maintest {
                 View view = new View();
                 view.print(card);
             }
-
-        }
-}
