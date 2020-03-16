@@ -15,9 +15,10 @@ class DeckDAO implements DeckDAOInterface {
     public String[] virus;
     public List<Card> deck;
 
-    public DeckDAO(String filepath){
+    public DeckDAO(String filepath) throws FileNotFoundException {
         this.filepath = filepath;
         deck = new ArrayList<>();
+        getAllCardFromFile();
     }
 
     @Override
@@ -25,11 +26,11 @@ class DeckDAO implements DeckDAOInterface {
         file = new File(filepath);
         scan = new Scanner(file);
         scan.next();
-        while(scan.hasNext()){
+        while (scan.hasNext()) {
             virus = scan.next().split(",");
             Card card = new Card(virus);
             deck.add(card);
-            
+
         }
     }
   

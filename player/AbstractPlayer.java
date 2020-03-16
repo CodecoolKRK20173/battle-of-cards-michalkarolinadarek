@@ -14,7 +14,7 @@ public abstract class AbstractPlayer {
 
     public abstract Card getTopCard();
 
-    public int getCount(){
-        return usedPile.countOfCards();
-    }
+    public abstract int getUsedPileCount();
+
+    public abstract String getName();
 }

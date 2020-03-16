@@ -21,7 +21,7 @@ class Maintest {
         
         DeckController deckcontroller = new DeckController("deck/virus.csv");
 
-        deckcontroller.createDeckOfCopyCards();
+        // deckcontroller.createDeckOfCopyCards();
         deckcontroller.getCardsForPlayers(6, 1);
 
         deckcontroller.DAOcards.get(0).setHasOwner(true);

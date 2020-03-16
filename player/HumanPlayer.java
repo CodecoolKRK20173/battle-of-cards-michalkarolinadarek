@@ -34,4 +34,8 @@ public class HumanPlayer extends AbstractPlayer {
         return name;
     }
 
+    public int getUsedPileCount(){
+        return usedPile.usedCards.size();
+    }
+
 }
