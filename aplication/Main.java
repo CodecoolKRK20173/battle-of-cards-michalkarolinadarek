@@ -13,8 +13,8 @@ import player.*;
 
 public class Main{
     public static void main(String[] args){
-        String[] ebola = {"Ebola", "1", "2", "5", "2", "5"};
-        String[] sars = {"Sars", "6", "1", "9", "21", "56"};
+        String[] ebola = {"Ebola","1", "1", "2", "5", "2", "5"};
+        String[] sars = {"Sars","2", "6", "1", "9", "21", "56"};
         // Fragment do wywalenia, ale można dzięki niemu podejrzeć, jak drukują się karty:
         Card card1 = new Card(ebola);
         Card card2 = new Card(sars);
