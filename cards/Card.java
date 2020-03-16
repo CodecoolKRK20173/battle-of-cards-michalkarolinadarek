@@ -112,11 +112,11 @@ public class Card implements Comparable<Card>,Cloneable {
         this.type = valueOfType;
     }
 
-    public void setOwner(boolean valueOfOwner){
+    public void setHasOwner(boolean valueOfOwner){
         this.hasOwner = valueOfOwner;
     }
 
-    public boolean getOwner(){
+    public boolean getHasOwner(){
         return hasOwner;
     }
 

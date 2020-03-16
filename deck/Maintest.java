@@ -24,7 +24,7 @@ class Maintest {
         deckcontroller.createDeckOfCopyCards();
         deckcontroller.getCardsForPlayers(6, 1);
 
-        deckcontroller.DAOcards.get(0).setOwner(true);
+        deckcontroller.DAOcards.get(0).setHasOwner(true);
         // System.out.println(deckcontroller.DAOcards.get(0).getName());
         // System.out.println(deckcontroller.DAOcards.get(0).getOwner()); //true
         // System.out.println(deckcontroller.deckOfCopyCards.get(0).getName());
