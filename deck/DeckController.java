@@ -1,5 +1,6 @@
 package deck;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,8 +16,7 @@ public class DeckController {
     Random random;
     int turnSwitcher = 0;
 
-    
-    DeckController(String filepath){
+    public DeckController(String filepath) throws CloneNotSupportedException, FileNotFoundException {
         this.deckdao = new DeckDAO(filepath); 
         this.DAOcards = deckdao.deck; 
 
@@ -24,12 +24,13 @@ public class DeckController {
         cardsForPlayers = new ArrayList<>(); 
         cardsForPlayers.addAll(DAOcards);
         random = new Random();
+        createDeckOfCopyCards();
     }
 
     // Po co mamy cardsOfPlayers?
     // Skoro DAOcards ma unikalne karty, deckOfCopyCards ma karty po skopiowaniu a forDealer ma karty dla playerów?
 
-    public void createDeckOfCopyCards() throws CloneNotSupportedException {
+    private void createDeckOfCopyCards() throws CloneNotSupportedException {
         for(Card cardObject : DAOcards){
             int numberOfCopy = cardObject.getType();
             for(int i = 0; i< numberOfCopy; i++){
@@ -40,7 +41,7 @@ public class DeckController {
     }
    
    
-    public Card getRandomCard(){
+    private Card getRandomCard(){
         ArrayList<Card> leftOvers = new ArrayList<>();
         for (Card card : cardsForPlayers){
             if(card.getHasOwner() == false){
@@ -74,8 +75,10 @@ public class DeckController {
     }
    
    
-    public void markAsHasOwner(Card randomCardforPlayer){
+    private void markAsHasOwner(Card randomCardforPlayer){
         randomCardforPlayer.setHasOwner(true);
     }
-
+    public List<ArrayList<Card>> getForDealerList(){
+        return forDealer;
+    }
 }

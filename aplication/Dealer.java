@@ -1,36 +1,55 @@
 package aplication;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
+import cards.Card;
 import deck.DeckController;
 import interactions.InputManager;
 import interactions.View;
+import player.AbstractPlayer;
+import player.HumanPlayer;
 
-public class Dealer{
+public class Dealer {
     View view;
     InputManager input;
     DeckController deckController;
-    
-    Dealer(){
+    List<AbstractPlayer> playersList;
+    final int COUNT_OF_PLAYERS = 2;
+
+    Dealer() throws FileNotFoundException, CloneNotSupportedException {
         view = new View();
         input = new InputManager();
-        // deckController = new DeckController();
+        playersList = new ArrayList<>();
+       try {
+        deckController = new DeckController("deck/virus.csv"); 
+       } catch (FileNotFoundException e) {
+           view.print("File not found" + e.getMessage());
+       }
+       
 
-        setPlayers(2);
+        setPlayers(COUNT_OF_PLAYERS);
         prepareGame();
         playGame();
     }
      
     private void setPlayers(int numberOfPlayers) {
-        // Petla powtórzona x numberofPlayers:
-            // spytanie o imię
-            // utworzenie playera o danym imieniu
-            // dodanie go do listy playerów
+        for (int i = 1; i <= numberOfPlayers; i++){
+            String name = input.askForName("Player " + i);
+            AbstractPlayer player = new HumanPlayer(name);
+            playersList.add(player);
+        }
     }
 
     private void prepareGame() {
-        // deckController.getCardsForPlayers(int countOfPLeayers, int numberOfCards)
-        // for cardsSet in deckController.forDealer
-            // i = index of player
-            // players[i].setCardToHand(cardsSet)
+        deckController.getCardsForPlayers(COUNT_OF_PLAYERS, 10);
+        List<ArrayList<Card>> temp = deckController.getForDealerList();
+        int index = 0;
+        for(ArrayList<Card> cardsForPlayer : temp){
+            playersList.get(index).setCardToHand(cardsForPlayer);
+            index++;
+        }
     }
 
     private void playGame() {

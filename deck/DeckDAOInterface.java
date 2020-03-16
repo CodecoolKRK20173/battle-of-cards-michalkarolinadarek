@@ -4,5 +4,5 @@ import java.io.FileNotFoundException;
 
 public interface DeckDAOInterface{
 
-    void getAllCardFromFile() throws FileNotFoundException;
+     void getAllCardFromFile() throws FileNotFoundException;
 }
