@@ -61,6 +61,7 @@ public class Dealer {
 
     private void playGameFor2Players() {
         for(int round = 1; round <= COUNT_OF_ROUNDS ;round++){
+            view.print("Current round: " + currentPlayer.getName());
             System.out.println("Ilość rund:" +round);
             Card currentPlayerCard = currentPlayer.getTopCard();
             Card nextPlayerCard = nextPlayer.getTopCard();
@@ -71,10 +72,10 @@ public class Dealer {
         }
 
         if(currentPlayer.getUsedPileCount() > nextPlayer.getUsedPileCount()){
-            view.print("Winner is a" + currentPlayer.getName());
+            view.print("Winner is " + currentPlayer.getName());
         }
         else{
-            view.print("Winner is a" + nextPlayer.getName());
+            view.print("Winner is " + nextPlayer.getName());
         }
         // while liczba kart u graczy > 0:
             // currentPlayerCard = currentPlayer.getTopCard
@@ -135,7 +136,9 @@ public class Dealer {
 
 
     void changeCurrentPlayer(){
-
+        AbstractPlayer temp = currentPlayer;
+        currentPlayer = nextPlayer;
+        nextPlayer = temp;
     }
         
 
