@@ -61,6 +61,7 @@ public class Dealer {
 
     private void playGameFor2Players() {
         for(int round = 1; round <= COUNT_OF_ROUNDS ;round++){
+            System.out.println("Ilość rund:" +round);
             Card currentPlayerCard = currentPlayer.getTopCard();
             Card nextPlayerCard = nextPlayer.getTopCard();
             view.print(currentPlayerCard);
@@ -118,10 +119,13 @@ public class Dealer {
         if(compareResult > 1){
             currentPlayer.takeWonCard(card1);
             currentPlayer.takeWonCard(card2);
+            view.print("It won " + currentPlayer.getName());
         }
         else{
             nextPlayer.takeWonCard(card1);
             nextPlayer.takeWonCard(card2);
+            view.print("It won " + nextPlayer.getName());
+
         }
     }
         // bierze dwie karty
