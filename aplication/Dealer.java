@@ -19,6 +19,7 @@ public class Dealer {
     List<AbstractPlayer> playersList;
     AbstractPlayer currentPlayer;
     AbstractPlayer nextPlayer;
+    List<Card> tempStack;
 
     final int COUNT_OF_PLAYERS = 2;
     final int COUNT_OF_ROUNDS = 10;
@@ -27,6 +28,7 @@ public class Dealer {
         view = new View();
         input = new InputManager();
         playersList = new ArrayList<>();
+        tempStack = new ArrayList<>();
         try {
             deckController = new DeckController("deck/virus.csv"); 
         } catch (FileNotFoundException e) {
@@ -117,16 +119,28 @@ public class Dealer {
                 break;    
         }
 
-        if(compareResult > 1){
+        if(compareResult > 0){
             currentPlayer.takeWonCard(card1);
             currentPlayer.takeWonCard(card2);
+            pullFromTempStack(currentPlayer);
             view.print("It won " + currentPlayer.getName());
         }
-        else{
+        else if(0 > compareResult){
             nextPlayer.takeWonCard(card1);
             nextPlayer.takeWonCard(card2);
+            pullFromTempStack(nextPlayer);
             view.print("It won " + nextPlayer.getName());
 
+        }
+        else{
+            tempStack.add(card1);
+            tempStack.add(card2);
+        }
+    }
+
+    void pullFromTempStack(AbstractPlayer player){
+        for(Card card: tempStack){
+            player.takeWonCard(card);
         }
     }
         // bierze dwie karty
