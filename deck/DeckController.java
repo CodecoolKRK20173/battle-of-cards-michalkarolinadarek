@@ -6,7 +6,7 @@ import java.util.Random;
 
 import cards.Card;
 
-class DeckController {
+public class DeckController {
     DeckDAO deckdao;
     List<Card> DAOcards;
     List<Card> deckOfCopyCards;
