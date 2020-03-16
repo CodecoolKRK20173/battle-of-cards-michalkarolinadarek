@@ -12,7 +12,6 @@ public class HumanPlayer extends AbstractPlayer {
         this.name = name;
         usedPile = new UsedPile();
         hand = new Hand(usedPile);
-
     }
 
     @Override
