@@ -2,7 +2,7 @@ package cards;
 
 import java.util.Comparator;
 
-class CardPanicLevelComparator implements Comparator<Card>{
+public class CardPanicLevelComparator implements Comparator<Card>{
 
     @Override
     public int compare(Card card1, Card card2) {
