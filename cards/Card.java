@@ -2,7 +2,7 @@ package cards;
 
 import java.util.HashMap;
 
-public class Card implements Comparable<Card> {
+public class Card implements Comparable<Card>,Cloneable {
     
 
     final Integer ID_DEATHS = 0;
@@ -28,6 +28,9 @@ public class Card implements Comparable<Card> {
             this.parametersMap.put(titles[index - 1], Integer.parseInt(parametersCard[index]));
         }
         this.hasOwner = false;
+    }
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     @Override
@@ -105,4 +108,13 @@ public class Card implements Comparable<Card> {
     public void setType(int valueOfType){
         this.type = valueOfType;
     }
+
+    public void setOwner(boolean valueOfOwner){
+        this.hasOwner = valueOfOwner;
+    }
+
+    public boolean getOwner(){
+        return hasOwner;
+    }
+
 }
