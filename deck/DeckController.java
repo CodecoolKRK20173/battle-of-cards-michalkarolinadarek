@@ -15,10 +15,10 @@ public class DeckController {
     Random random;
     int turnSwitcher = 0;
 
-    // Czemu przekazujemy DeckDAO jako parametr a nie tworzymy go wewnątrz Controllera?
-    DeckController(DeckDAO daodao){
-        this.deckdao = daodao; 
-        this.DAOcards = daodao.deck; 
+    
+    DeckController(String filepath){
+        this.deckdao = new DeckDAO(filepath); 
+        this.DAOcards = deckdao.deck; 
 
         deckOfCopyCards = new ArrayList<>(); 
         cardsForPlayers = new ArrayList<>(); 

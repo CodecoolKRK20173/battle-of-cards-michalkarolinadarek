@@ -83,7 +83,7 @@ public class Card implements Comparable<Card>,Cloneable {
         return this.name;
     }
 
-    // skoro mamy hashmapę to nie możemy odwoływać się do parametersMap.get("deaths") zamiast ID?
+    
     public int getDeaths(){
         return parametersMap.get(titles[ID_DEATHS]);
     }

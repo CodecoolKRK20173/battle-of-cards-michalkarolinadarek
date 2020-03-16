@@ -13,8 +13,6 @@ class Hand {
         usedPileCards = usedPile;
     }
 
-// Musimy przemyśleć, czy w poniższych dwóch funkcjach przekazujemy kartę w parametrze czy odwołujemy się do indeksu (0)
-// Bo chyba powinno być to jakoś spójne. Ale wyjdzie pewnie przy robieniu dealera.
 
     void moveToUsedPile(Card card){
         usedPileCards.addToUsedPile(card);

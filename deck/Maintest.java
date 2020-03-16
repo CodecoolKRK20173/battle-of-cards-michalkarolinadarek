@@ -19,7 +19,7 @@ class Maintest {
             System.out.println(it.next().getName());
         }
         
-        DeckController deckcontroller = new DeckController(decker);
+        DeckController deckcontroller = new DeckController("deck/virus.csv");
 
         deckcontroller.createDeckOfCopyCards();
         deckcontroller.getCardsForPlayers(6, 1);
