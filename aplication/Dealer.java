@@ -84,6 +84,22 @@ public class Dealer {
     }
 
     private void compareCards(Card card1, Card card2, int statToCompare){
+        int compareResult = callForComparator(card1, card2, statToCompare);
+
+        if (compareResult != 0) {
+            AbstractPlayer roundWinner = (compareResult > 0) ? currentPlayer : nextPlayer;
+            roundWinner.takeWonCard(card1);
+            roundWinner.takeWonCard(card2);
+            pullFromTempStack(roundWinner);
+            view.print(String.format("%s won this round!", roundWinner.getName()));
+        } else {
+            tempStack.add(card1);
+            tempStack.add(card2);
+            view.print("It's a tie! These two cards will get to the winner of the next round.");
+        }
+    }
+
+    private int callForComparator(Card card1, Card card2, int statToCompare) {
         int compareResult = 0;
         Comparator<Card> comp;
         switch(statToCompare){
@@ -108,24 +124,7 @@ public class Dealer {
                 compareResult = comp.compare(card1, card2);
                 break;    
         }
-
-        if(compareResult > 0){
-            currentPlayer.takeWonCard(card1);
-            currentPlayer.takeWonCard(card2);
-            pullFromTempStack(currentPlayer);
-            view.print("It won " + currentPlayer.getName());
-        }
-        else if(0 > compareResult){
-            nextPlayer.takeWonCard(card1);
-            nextPlayer.takeWonCard(card2);
-            pullFromTempStack(nextPlayer);
-            view.print("It won " + nextPlayer.getName());
-
-        }
-        else{
-            tempStack.add(card1);
-            tempStack.add(card2);
-        }
+        return compareResult;
     }
 
     void pullFromTempStack(AbstractPlayer player){
@@ -133,11 +132,6 @@ public class Dealer {
             player.takeWonCard(card);
         }
     }
-        // bierze dwie karty
-        // wywołuje odpowiedni komparator na podstawie inta statToCompare (można zamknąć w oddzielną metodę)
-        // na podstawie wygranej bierze kartę od przegranego i oddaje ją wygranemu, 
-        // oraz przekłada wygranemu jego kartę do usedPile (też można zamknąć w oddzielną metodę)
-
 
     void changeCurrentPlayer(){
         AbstractPlayer temp = currentPlayer;
@@ -159,7 +153,6 @@ public class Dealer {
                 winner = player;
             }
         }
-
         if (checkIfTie(allResults)) {
             view.print("It's a tie!");
         } else {
@@ -173,13 +166,4 @@ public class Dealer {
         
         return hasDuplicates;
     }
-
-        
-
-    // getOtherPlayer()
-
-    
-
-
-
 }
