@@ -7,8 +7,7 @@ import java.util.List;
 
 import cards.*;
 import deck.DeckController;
-import interactions.InputManager;
-import interactions.View;
+import interactions.*;
 import player.AbstractPlayer;
 import player.HumanPlayer;
 
@@ -17,30 +16,31 @@ public class Dealer {
     InputManager input;
     DeckController deckController;
     List<AbstractPlayer> playersList;
+    List<Card> tempStack;
+    
     AbstractPlayer currentPlayer;
     AbstractPlayer nextPlayer;
-    List<Card> tempStack;
 
     final int COUNT_OF_PLAYERS = 2;
     final int COUNT_OF_ROUNDS = 10;
 
-    Dealer() throws FileNotFoundException, CloneNotSupportedException {
-        view = new View();
-        input = new InputManager();
-        playersList = new ArrayList<>();
-        tempStack = new ArrayList<>();
+    Dealer() throws CloneNotSupportedException {
         try {
+            view = new View();
+            input = new InputManager();
+            playersList = new ArrayList<>();
+            tempStack = new ArrayList<>();
             deckController = new DeckController("deck/virus.csv"); 
+
+            setPlayers(COUNT_OF_PLAYERS);
+            currentPlayer = playersList.get(0);
+            nextPlayer = playersList.get(1);
+            
+            prepareGame();
+            playGameFor2Players();
         } catch (FileNotFoundException e) {
             view.print("File not found" + e.getMessage());
         }
-       
-
-        setPlayers(COUNT_OF_PLAYERS);
-        currentPlayer = playersList.get(0);
-        nextPlayer = playersList.get(1);
-        prepareGame();
-        playGameFor2Players();
     }
      
     private void setPlayers(int numberOfPlayers) {
@@ -52,8 +52,8 @@ public class Dealer {
     }
 
     private void prepareGame() {
-        deckController.getCardsForPlayers(COUNT_OF_PLAYERS, COUNT_OF_ROUNDS);
-        List<ArrayList<Card>> temp = deckController.getForDealerList();
+        deckController.drawCardsForPlayers(COUNT_OF_PLAYERS, COUNT_OF_ROUNDS);
+        List<ArrayList<Card>> temp = deckController.getCardsForPlayers();
         int index = 0;
         for(ArrayList<Card> cardsForPlayer : temp){
             playersList.get(index).setCardToHand(cardsForPlayer);

@@ -8,42 +8,35 @@ import java.util.Random;
 import cards.Card;
 
 public class DeckController {
-    DeckDAO deckdao;
-    List<Card> DAOcards;
-    List<Card> deckOfCopyCards;
-    List<Card> cardsForPlayers;
-    List<ArrayList<Card>> forDealer;
+    DeckDAO deckDAO;
+    List<Card> cardsFromDeckDAOUnique;
+    List<Card> cardsFromDeckDAOWithCopies;
+    List<ArrayList<Card>> cardsForPlayers;
     Random random;
     int turnSwitcher = 0;
 
     public DeckController(String filepath) throws CloneNotSupportedException, FileNotFoundException {
-        this.deckdao = new DeckDAO(filepath); 
-        this.DAOcards = deckdao.deck; 
-
-        deckOfCopyCards = new ArrayList<>(); 
-        cardsForPlayers = new ArrayList<>(); 
-        cardsForPlayers.addAll(DAOcards);
+        deckDAO = new DeckDAO(filepath); 
+        cardsFromDeckDAOUnique = deckDAO.deck; 
+        cardsFromDeckDAOWithCopies = new ArrayList<>(); 
         random = new Random();
+        
         createDeckOfCopyCards();
     }
 
-    // Po co mamy cardsOfPlayers?
-    // Skoro DAOcards ma unikalne karty, deckOfCopyCards ma karty po skopiowaniu a forDealer ma karty dla playerów?
-
     private void createDeckOfCopyCards() throws CloneNotSupportedException {
-        for(Card cardObject : DAOcards){
+        for(Card cardObject : cardsFromDeckDAOUnique){
             int numberOfCopy = cardObject.getType();
             for(int i = 0; i< numberOfCopy; i++){
                 Card cardClone = (Card)cardObject.clone();
-                deckOfCopyCards.add(cardClone);
+                cardsFromDeckDAOWithCopies.add(cardClone);
             }
         }
     }
    
-   
     private Card getRandomCard(){
         ArrayList<Card> leftOvers = new ArrayList<>();
-        for (Card card : cardsForPlayers){
+        for (Card card : cardsFromDeckDAOWithCopies){
             if(card.getHasOwner() == false){
                 leftOvers.add(card);
             }
@@ -54,33 +47,31 @@ public class DeckController {
     }
    
    
-    public void getCardsForPlayers(int countOfPLeayers, int numberOfCards){
-        forDealer = new ArrayList<ArrayList<Card>>();
-        cardsForPlayers.addAll(deckOfCopyCards);
+    public void drawCardsForPlayers(int countOfPLeayers, int numberOfCards){
+        cardsForPlayers = new ArrayList<ArrayList<Card>>();
         
         for(int i = 0; i< countOfPLeayers; i++){
             ArrayList<Card> playerList = new ArrayList<>();
-            forDealer.add(playerList);
+            cardsForPlayers.add(playerList);
         }
         for(int i = 1; i <= countOfPLeayers * numberOfCards; i++){
             if(turnSwitcher < countOfPLeayers) {
-                Card randomCardforPlayer = getRandomCard();         //gets random card for Player
-                markAsHasOwner(randomCardforPlayer);                // change hasOwner atribute to true
-                forDealer.get(turnSwitcher).add(randomCardforPlayer);          //send random card to each player one by one
+                Card randomCardforPlayer = getRandomCard();
+                markAsHasOwner(randomCardforPlayer);
+                cardsForPlayers.get(turnSwitcher).add(randomCardforPlayer);
                 turnSwitcher++;
             } else {
                 turnSwitcher = 0;
                 i--;
-            }
-            
+            } 
         }
     }
    
-   
-    private void markAsHasOwner(Card randomCardforPlayer){
-        randomCardforPlayer.setHasOwner(true);
+    private void markAsHasOwner(Card card){
+        card.setHasOwner(true);
     }
-    public List<ArrayList<Card>> getForDealerList(){
-        return forDealer;
+
+    public List<ArrayList<Card>> getCardsForPlayers(){
+        return cardsForPlayers;
     }
 }
