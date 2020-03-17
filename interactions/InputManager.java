@@ -39,7 +39,7 @@ public class InputManager {
 
     public int askForStatToCompare() {
         
-        String[] listOfStats = new String[] {"Deaths", "Incubation period", "Infectivity", 
+        String[] listOfStats = new String[] {"Infected", "Deaths", "Incubation period", 
                                              "Painfullness", "Panic level"};
         view.print(listOfStats, "Available stats:");
         int statNumber = getIntInput("What do you want to compare? Type the number.");
