@@ -1,12 +1,13 @@
 package cards;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Card implements Comparable<Card>,Cloneable {
-
-    final Integer ID_DEATHS = 2;
-    final Integer ID_INCUBATION = 3;
-    final Integer ID_INFECTVITY = 4;
+    
+    final Integer ID_INFECTVITY = 2;
+    final Integer ID_DEATHS = 3;
+    final Integer ID_INCUBATION = 4;
     final Integer ID_PAINFULNESS = 5;
     final Integer ID_PANIC_LEVEL = 6;
     
@@ -14,7 +15,8 @@ public class Card implements Comparable<Card>,Cloneable {
     HashMap<String, Integer> parametersMap;
     Boolean hasOwner;
     Integer type;
-    private String[] titles = {"name", "type", "deaths", "incubation", "infectvity", "painfulness", "panicLevel"};
+    private String[] titles = {"name", "type", "infected", "deaths", "incubation", "painfulness", "panic level"};
+    private String[] units = {"since 2010", "since 2010", "days", "%", "%"};
 
 
     public Card(String[] cardParameters){
@@ -43,12 +45,14 @@ public class Card implements Comparable<Card>,Cloneable {
         return -1;
     }
 
-    public String toString(){
-        String output = name.toUpperCase() + "\n";
-
+    public String toString() throws IndexOutOfBoundsException {
+        String output = name.toUpperCase() + "\n" + "\n";
+        
         for(String key: titles){
-            if(parametersMap.containsKey(key))
-                output += key + ": " + parametersMap.get(key) + "\n";
+            if(parametersMap.containsKey(key)) {
+                int i = Arrays.asList(titles).indexOf(key);
+                output += String.format("%s (%s): %d\n", key, units[i-2], parametersMap.get(key));
+            }
         }
         return output;
     }

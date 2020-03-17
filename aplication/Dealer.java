@@ -3,12 +3,13 @@ package aplication;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cards.*;
 import deck.DeckController;
-import interactions.InputManager;
-import interactions.View;
+import interactions.*;
 import player.AbstractPlayer;
 import player.HumanPlayer;
 
@@ -17,30 +18,38 @@ public class Dealer {
     InputManager input;
     DeckController deckController;
     List<AbstractPlayer> playersList;
+    List<Card> tempStack;
+    
     AbstractPlayer currentPlayer;
     AbstractPlayer nextPlayer;
-    List<Card> tempStack;
 
     final int COUNT_OF_PLAYERS = 2;
     final int COUNT_OF_ROUNDS = 10;
 
-    Dealer() throws FileNotFoundException, CloneNotSupportedException {
-        view = new View();
-        input = new InputManager();
-        playersList = new ArrayList<>();
-        tempStack = new ArrayList<>();
+    public Dealer() throws CloneNotSupportedException {
         try {
+            view = new View();
+            input = new InputManager();
+            playersList = new ArrayList<>();
+            tempStack = new ArrayList<>();
             deckController = new DeckController("deck/virus.csv"); 
-        } catch (FileNotFoundException e) {
-            view.print("File not found" + e.getMessage());
-        }
-       
 
-        setPlayers(COUNT_OF_PLAYERS);
-        currentPlayer = playersList.get(0);
-        nextPlayer = playersList.get(1);
-        prepareGame();
-        playGameFor2Players();
+            setPlayers(COUNT_OF_PLAYERS);
+            currentPlayer = playersList.get(0);
+            nextPlayer = playersList.get(1);
+            
+            prepareGame();
+            playGameFor2Players();
+        
+        } catch (FileNotFoundException e) {
+            view.print("File not found. " + e.getMessage());
+        } catch (CloneNotSupportedException e) {
+            view.print("Can't make clone of Card object. " + e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+            view.print("Index error while printing cards. " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            view.print("There is not enough cards to give to players. " + e.getMessage());
+        }
     }
      
     private void setPlayers(int numberOfPlayers) {
@@ -52,8 +61,8 @@ public class Dealer {
     }
 
     private void prepareGame() {
-        deckController.getCardsForPlayers(COUNT_OF_PLAYERS, COUNT_OF_ROUNDS);
-        List<ArrayList<Card>> temp = deckController.getForDealerList();
+        deckController.drawCardsForPlayers(COUNT_OF_PLAYERS, COUNT_OF_ROUNDS);
+        List<ArrayList<Card>> temp = deckController.getCardsForPlayers();
         int index = 0;
         for(ArrayList<Card> cardsForPlayer : temp){
             playersList.get(index).setCardToHand(cardsForPlayer);
@@ -62,38 +71,39 @@ public class Dealer {
     }
 
     private void playGameFor2Players() {
-        for(int round = 1; round <= COUNT_OF_ROUNDS ;round++){
-            view.print("Current round: " + currentPlayer.getName());
-            System.out.println("Ilość rund:" +round);
+        for (int round = 1; round <= COUNT_OF_ROUNDS ;round++) {
+            view.print(String.format("Round number %d! %s's turn to choose!", round, currentPlayer.getName()));
+            
             Card currentPlayerCard = currentPlayer.getTopCard();
             Card nextPlayerCard = nextPlayer.getTopCard();
+            
             view.print(currentPlayerCard);
             int statToCompare = input.askForStatToCompare();
+            view.print(currentPlayerCard, nextPlayerCard);
+
             compareCards(currentPlayerCard, nextPlayerCard, statToCompare);
             changeCurrentPlayer();
         }
-
-        if(currentPlayer.getUsedPileCount() > nextPlayer.getUsedPileCount()){
-            view.print("Winner is " + currentPlayer.getName());
-        }
-        else{
-            view.print("Winner is " + nextPlayer.getName());
-        }
-        // while liczba kart u graczy > 0:
-            // currentPlayerCard = currentPlayer.getTopCard
-            // otherPlayerCard = getOtherPlayer.getTopCard
-            // view.print(currentPlayerCard)
-            // int statToCompare = input.askForStatToCompare()
-
-            // compareCards(currentPlayerCard, otherPlayerCard, int statToCompare)
-
-            // changeCurrentPlayer
-        // decideWhoWon()
-
+        decideWhoWon();
     }
-    // String[] listOfStats = new String[] {"Deaths", "Incubation period", "Infectivity", 
-    //                                      "Painfullness", "Panic level"};
-    void compareCards(Card card1, Card card2, int statToCompare){
+
+    private void compareCards(Card card1, Card card2, int statToCompare){
+        int compareResult = callForComparator(card1, card2, statToCompare);
+
+        if (compareResult != 0) {
+            AbstractPlayer roundWinner = (compareResult > 0) ? currentPlayer : nextPlayer;
+            roundWinner.takeWonCard(card1);
+            roundWinner.takeWonCard(card2);
+            pullFromTempStack(roundWinner);
+            view.print(String.format("%s won this round!", roundWinner.getName()));
+        } else {
+            tempStack.add(card1);
+            tempStack.add(card2);
+            view.print("It's a tie! These two cards will get to the winner of the next round.");
+        }
+    }
+
+    private int callForComparator(Card card1, Card card2, int statToCompare) {
         int compareResult = 0;
         Comparator<Card> comp;
         switch(statToCompare){
@@ -118,24 +128,7 @@ public class Dealer {
                 compareResult = comp.compare(card1, card2);
                 break;    
         }
-
-        if(compareResult > 0){
-            currentPlayer.takeWonCard(card1);
-            currentPlayer.takeWonCard(card2);
-            pullFromTempStack(currentPlayer);
-            view.print("It won " + currentPlayer.getName());
-        }
-        else if(0 > compareResult){
-            nextPlayer.takeWonCard(card1);
-            nextPlayer.takeWonCard(card2);
-            pullFromTempStack(nextPlayer);
-            view.print("It won " + nextPlayer.getName());
-
-        }
-        else{
-            tempStack.add(card1);
-            tempStack.add(card2);
-        }
+        return compareResult;
     }
 
     void pullFromTempStack(AbstractPlayer player){
@@ -143,23 +136,38 @@ public class Dealer {
             player.takeWonCard(card);
         }
     }
-        // bierze dwie karty
-        // wywołuje odpowiedni komparator na podstawie inta statToCompare (można zamknąć w oddzielną metodę)
-        // na podstawie wygranej bierze kartę od przegranego i oddaje ją wygranemu, 
-        // oraz przekłada wygranemu jego kartę do usedPile (też można zamknąć w oddzielną metodę)
-
 
     void changeCurrentPlayer(){
         AbstractPlayer temp = currentPlayer;
         currentPlayer = nextPlayer;
         nextPlayer = temp;
     }
+
+    private void decideWhoWon() {
+        AbstractPlayer winner = playersList.get(0);
+        List<Integer> allResults = new ArrayList<Integer>();
+        view.print("The game is over!");
+
+        for (AbstractPlayer player : playersList) {
+            int result = player.getUsedPileCount();
+            view.print(String.format("%s has %d points!", player.getName(), result));
+            allResults.add(result);
+            
+            if(result > winner.getUsedPileCount()) {
+                winner = player;
+            }
+        }
+        if (checkIfTie(allResults)) {
+            view.print("It's a tie!");
+        } else {
+            view.print(String.format("The winner of the game is %s! Congratulations!", winner.getName()));
+        }
+    }
+
+    private boolean checkIfTie(List<Integer> listOfResults) {
+        Set<Integer> setFromList = new HashSet<Integer>(listOfResults);
+        boolean hasDuplicates = (setFromList.size() < listOfResults.size()) ? true : false;
         
-
-    // getOtherPlayer()
-
-    
-
-
-
+        return hasDuplicates;
+    }
 }
