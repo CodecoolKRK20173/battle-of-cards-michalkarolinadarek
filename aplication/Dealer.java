@@ -3,7 +3,9 @@ package aplication;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cards.*;
 import deck.DeckController;
@@ -38,6 +40,7 @@ public class Dealer {
             
             prepareGame();
             playGameFor2Players();
+        
         } catch (FileNotFoundException e) {
             view.print("File not found" + e.getMessage());
         }
@@ -62,7 +65,7 @@ public class Dealer {
     }
 
     private void playGameFor2Players() {
-        for(int round = 1; round <= COUNT_OF_ROUNDS ;round++){
+        for (int round = 1; round <= COUNT_OF_ROUNDS ;round++) {
             view.print("Current round: " + currentPlayer.getName());
             System.out.println("Ilość rund:" +round);
             Card currentPlayerCard = currentPlayer.getTopCard();
@@ -72,27 +75,9 @@ public class Dealer {
             compareCards(currentPlayerCard, nextPlayerCard, statToCompare);
             changeCurrentPlayer();
         }
-
-        if(currentPlayer.getUsedPileCount() > nextPlayer.getUsedPileCount()){
-            view.print("Winner is " + currentPlayer.getName());
-        }
-        else{
-            view.print("Winner is " + nextPlayer.getName());
-        }
-        // while liczba kart u graczy > 0:
-            // currentPlayerCard = currentPlayer.getTopCard
-            // otherPlayerCard = getOtherPlayer.getTopCard
-            // view.print(currentPlayerCard)
-            // int statToCompare = input.askForStatToCompare()
-
-            // compareCards(currentPlayerCard, otherPlayerCard, int statToCompare)
-
-            // changeCurrentPlayer
-        // decideWhoWon()
-
+        decideWhoWon();
     }
-    // String[] listOfStats = new String[] {"Deaths", "Incubation period", "Infectivity", 
-    //                                      "Painfullness", "Panic level"};
+
     void compareCards(Card card1, Card card2, int statToCompare){
         int compareResult = 0;
         Comparator<Card> comp;
@@ -154,6 +139,36 @@ public class Dealer {
         currentPlayer = nextPlayer;
         nextPlayer = temp;
     }
+
+    private void decideWhoWon() {
+        AbstractPlayer winner = playersList.get(0);
+        List<Integer> allResults = new ArrayList<Integer>();
+        view.print("The game is over!");
+
+        for (AbstractPlayer player : playersList) {
+            int result = player.getUsedPileCount();
+            view.print(String.format("%s has %d points!", player.getName(), result));
+            allResults.add(result);
+            
+            if(result > winner.getUsedPileCount()) {
+                winner = player;
+            }
+        }
+
+        if (checkIfTie(allResults)) {
+            view.print("It's a tie!");
+        } else {
+            view.print(String.format("The winner of the game is %s! Congratulations!", winner.getName()));
+        }
+    }
+
+    private boolean checkIfTie(List<Integer> listOfResults) {
+        Set<Integer> setFromList = new HashSet<Integer>(listOfResults);
+        boolean hasDuplicates = (setFromList.size() < listOfResults.size()) ? true : false;
+        
+        return hasDuplicates;
+    }
+
         
 
     // getOtherPlayer()
