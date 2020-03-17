@@ -131,13 +131,13 @@ public class Dealer {
         return compareResult;
     }
 
-    void pullFromTempStack(AbstractPlayer player){
+    private void pullFromTempStack(AbstractPlayer player){
         for(Card card: tempStack){
             player.takeWonCard(card);
         }
     }
 
-    void changeCurrentPlayer(){
+    private void changeCurrentPlayer(){
         AbstractPlayer temp = currentPlayer;
         currentPlayer = nextPlayer;
         nextPlayer = temp;

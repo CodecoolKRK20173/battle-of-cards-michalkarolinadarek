@@ -9,7 +9,7 @@ public class InputManager {
         view = new View();
     }
 
-    public String getStringInput(String message) {
+    private String getStringInput(String message) {
         System.out.println(" " + message);
         System.out.print(" ");
         Scanner scannerFromUser = new Scanner(System.in);
@@ -18,7 +18,7 @@ public class InputManager {
         return input;
     }
 
-    public int getIntInput(String message) {
+    private int getIntInput(String message) {
         System.out.println("\n " + message);
         System.out.print(" ");
         Scanner scannerFromUser = new Scanner(System.in);
