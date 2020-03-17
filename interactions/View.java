@@ -8,7 +8,7 @@ public class View{
         System.out.println(" " + message);
     }
     
-    public void print(Card card) {
+    public void print(Card card) throws IndexOutOfBoundsException {
         String[] lines = card.toString().split("\n");
 
         System.out.println();
@@ -19,7 +19,7 @@ public class View{
         System.out.println(" " + "└" + "─".repeat(32) + "┘");
     }
 
-    public void print(Card card1, Card card2) {
+    public void print(Card card1, Card card2) throws IndexOutOfBoundsException {
         String[] lines1 = card1.toString().split("\n");
         String[] lines2 = card2.toString().split("\n");
 

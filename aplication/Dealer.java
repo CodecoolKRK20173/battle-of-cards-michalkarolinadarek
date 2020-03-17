@@ -45,6 +45,8 @@ public class Dealer {
             view.print("File not found. " + e.getMessage());
         } catch (CloneNotSupportedException e) {
             view.print("Can't make clone of Card object. " + e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+            view.print("Index error while printing cards. " + e.getMessage());
         }
     }
      
