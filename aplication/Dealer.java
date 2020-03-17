@@ -26,7 +26,7 @@ public class Dealer {
     final int COUNT_OF_PLAYERS = 2;
     final int COUNT_OF_ROUNDS = 10;
 
-    Dealer() throws CloneNotSupportedException {
+    public Dealer() throws CloneNotSupportedException {
         try {
             view = new View();
             input = new InputManager();
@@ -42,7 +42,9 @@ public class Dealer {
             playGameFor2Players();
         
         } catch (FileNotFoundException e) {
-            view.print("File not found" + e.getMessage());
+            view.print("File not found. " + e.getMessage());
+        } catch (CloneNotSupportedException e) {
+            view.print("Can't make clone of Card object. " + e.getMessage());
         }
     }
      
@@ -66,19 +68,22 @@ public class Dealer {
 
     private void playGameFor2Players() {
         for (int round = 1; round <= COUNT_OF_ROUNDS ;round++) {
-            view.print("Current round: " + currentPlayer.getName());
-            System.out.println("Ilość rund:" +round);
+            view.print(String.format("Round number %d! %s's turn to choose!", round, currentPlayer.getName()));
+            
             Card currentPlayerCard = currentPlayer.getTopCard();
             Card nextPlayerCard = nextPlayer.getTopCard();
+            
             view.print(currentPlayerCard);
             int statToCompare = input.askForStatToCompare();
+            view.print(currentPlayerCard, nextPlayerCard);
+
             compareCards(currentPlayerCard, nextPlayerCard, statToCompare);
             changeCurrentPlayer();
         }
         decideWhoWon();
     }
 
-    void compareCards(Card card1, Card card2, int statToCompare){
+    private void compareCards(Card card1, Card card2, int statToCompare){
         int compareResult = 0;
         Comparator<Card> comp;
         switch(statToCompare){
