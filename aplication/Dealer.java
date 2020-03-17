@@ -47,6 +47,8 @@ public class Dealer {
             view.print("Can't make clone of Card object. " + e.getMessage());
         } catch (IndexOutOfBoundsException e) {
             view.print("Index error while printing cards. " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            view.print("There is not enough cards to give to players. " + e.getMessage());
         }
     }
      

@@ -12,11 +12,11 @@ public class View{
         String[] lines = card.toString().split("\n");
 
         System.out.println();
-        System.out.println(" " + "┌" + "─".repeat(32) + "┐");
+        System.out.println(" " + "┌" + "─".repeat(36) + "┐");
         for (String line : lines) {
-            System.out.println(String.format(" │ %-30s │" , line));
+            System.out.println(String.format(" │ %-34s │" , line));
         }
-        System.out.println(" " + "└" + "─".repeat(32) + "┘");
+        System.out.println(" " + "└" + "─".repeat(36) + "┘");
     }
 
     public void print(Card card1, Card card2) throws IndexOutOfBoundsException {
@@ -24,12 +24,12 @@ public class View{
         String[] lines2 = card2.toString().split("\n");
 
         System.out.println();
-        System.out.println(" " + "┌" + "─".repeat(32) + "┐" + " " + "┌" + "─".repeat(32) + "┐");
+        System.out.println(" " + "┌" + "─".repeat(36) + "┐" + " " + "┌" + "─".repeat(36) + "┐");
         for (int i = 0; i < lines1.length; i++) {
-            System.out.print(String.format(" │ %-30s │" , lines1[i]));
-            System.out.println(String.format(" │ %-30s │" , lines2[i]));
+            System.out.print(String.format(" │ %-34s │" , lines1[i]));
+            System.out.println(String.format(" │ %-34s │" , lines2[i]));
         }
-        System.out.println(" " + "└" + "─".repeat(32) + "┘" + " " + "└" + "─".repeat(32) + "┘");
+        System.out.println(" " + "└" + "─".repeat(36) + "┘" + " " + "└" + "─".repeat(36) + "┘");
     }
 
     public void print(String[] list, String title) {
