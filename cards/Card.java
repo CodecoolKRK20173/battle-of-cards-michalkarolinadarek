@@ -10,10 +10,10 @@ public class Card implements Comparable<Card>,Cloneable {
     final Integer ID_PAINFULNESS = 5;
     final Integer ID_PANIC_LEVEL = 6;
     
-    String name;
+    private String name;
     HashMap<String, Integer> parametersMap;
-    Boolean hasOwner;
-    Integer type;
+    private Boolean hasOwner;
+    private Integer type;
     private String[] titles = {"name", "type", "infected", "deaths", "incubation", "painfulness", "panic level"};
     private String[] unitsForPArameters = {"since 2010", "since 2010", "days", "%", "%"};
 
