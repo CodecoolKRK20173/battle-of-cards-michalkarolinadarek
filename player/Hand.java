@@ -5,8 +5,8 @@ import java.util.List;
 import cards.Card;
 
 class Hand {
-    List<Card> cardsToUse;
-    UsedPile usedPileCards;
+    private List<Card> cardsToUse;
+    private UsedPile usedPileCards;
 
     Hand(UsedPile usedPile){
         cardsToUse = new ArrayList<Card>();
