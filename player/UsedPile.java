@@ -6,7 +6,7 @@ import java.util.List;
 import cards.Card;
 
 class UsedPile{
-    List<Card> usedCards;
+    private List<Card> usedCards;
 
     UsedPile(){
         usedCards = new ArrayList<Card>();
@@ -14,5 +14,9 @@ class UsedPile{
 
     void addToUsedPile(Card newCard){
         usedCards.add(newCard);
+    }
+
+    int getCount(){
+        return usedCards.size();
     }
 }
