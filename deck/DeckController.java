@@ -18,7 +18,7 @@ public class DeckController {
     public DeckController(String filepath) throws CloneNotSupportedException, FileNotFoundException {
         deckDAO = new DeckDAO(filepath); 
         if(deckDAO.getDeckDAO() == null){
-            throw new FileNotFoundException();
+            throw new FileNotFoundException(filepath);
         }
         cardsFromDeckDAOUnique = deckDAO.getDeckDAO(); 
         cardsFromDeckDAOWithCopies = new ArrayList<>(); 

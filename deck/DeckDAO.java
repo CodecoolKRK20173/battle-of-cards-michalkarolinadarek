@@ -15,7 +15,7 @@ class DeckDAO implements DeckDAOInterface {
     private String[] virus;
     private List<Card> deck;
 
-    public DeckDAO(String filepath) throws FileNotFoundException {
+    public DeckDAO(String filepath){
         this.filepath = filepath;
        
         if(readFromFile()){
