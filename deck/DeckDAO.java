@@ -33,7 +33,6 @@ class DeckDAO implements DeckDAOInterface {
             scan = new Scanner(file);
             return true;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             return false;
         }
     }
