@@ -6,7 +6,12 @@ public class CardPanicLevelComparator implements Comparator<Card>{
 
     @Override
     public int compare(Card card1, Card card2) {
-        return card1.getPanicLevel() - card2.getPanicLevel();
+        int result = card1.getPanicLevel() - card2.getPanicLevel();
+        if(result > 0)
+            return 1;
+        if(result < 0)
+            return -1;
+        return result;
     }
     
 }

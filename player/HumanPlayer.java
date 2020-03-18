@@ -30,12 +30,13 @@ public class HumanPlayer extends AbstractPlayer {
         return returnCard;
     }
 
+    @Override
+    public int getUsedPileCount(){
+        return usedPile.getCount();
+    }
+
+    @Override
     public String getName(){
         return name;
     }
-
-    public int getUsedPileCount(){
-        return usedPile.usedCards.size();
-    }
-
 }

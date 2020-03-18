@@ -3,26 +3,32 @@ package interactions;
 import java.util.Scanner;
 
 public class InputManager {
-    private View view;
+    private ViewTerminal view;
 
     public InputManager() {
-        view = new View();
+        view = new ViewTerminal();
     }
 
-    public String getStringInput(String message) {
-        System.out.println(" " + message);
-        System.out.print(" ");
+    private String getStringInput(String message) {
+        view.print(message);
+        view.printEmptyChar();
         Scanner scannerFromUser = new Scanner(System.in);
         String input = scannerFromUser.nextLine();
         
         return input;
     }
 
-    public int getIntInput(String message) {
-        System.out.println("\n " + message);
-        System.out.print(" ");
+    private int getIntInput(String message) {
+        view.print(message);
+        view.printEmptyChar();
+        int input = 0;
         Scanner scannerFromUser = new Scanner(System.in);
-        int input = scannerFromUser.nextInt();
+
+        while(!scannerFromUser.hasNextInt()){
+            view.print("Wrong input! Please insert the integer number");
+            scannerFromUser.next();
+        }
+        input = scannerFromUser.nextInt();
         
         return input;
     }
@@ -39,7 +45,7 @@ public class InputManager {
 
     public int askForStatToCompare() {
         
-        String[] listOfStats = new String[] {"Deaths", "Incubation period", "Infectivity", 
+        String[] listOfStats = new String[] {"Infected", "Deaths", "Incubation period", 
                                              "Painfullness", "Panic level"};
         view.print(listOfStats, "Available stats:");
         int statNumber = getIntInput("What do you want to compare? Type the number.");
