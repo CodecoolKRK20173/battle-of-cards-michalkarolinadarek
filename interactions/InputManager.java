@@ -6,7 +6,7 @@ public class InputManager {
     private View view;
 
     public InputManager() {
-        view = new View();
+        view = new ViewTerminal();
     }
 
     private String getStringInput(String message) {
