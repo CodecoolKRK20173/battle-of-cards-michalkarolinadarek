@@ -36,7 +36,7 @@ public class Dealer {
     
     public void run() {
         try {
-            deckController = new DeckController("deck/virus.csv");
+            deckController = new DeckController("deck/virus.csvsasd");
             setPlayers(COUNT_OF_PLAYERS);
             prepareGame();
             playGameFor2Players();

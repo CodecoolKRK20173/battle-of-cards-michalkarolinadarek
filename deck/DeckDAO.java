@@ -17,23 +17,28 @@ class DeckDAO implements DeckDAOInterface {
 
     public DeckDAO(String filepath) throws FileNotFoundException {
         this.filepath = filepath;
-        deck = new ArrayList<>();
-        getAllCardFromFile();
+       
+        if(readFromFile()){
+            deck = new ArrayList<>();
+            getAllCardFromFile();
+        }
+       
     }
     public List<Card> getDeckDAO(){
         return deck;
     }
-    @Override
-    public void getAllCardFromFile(){
+    private boolean readFromFile(){
         file = new File(filepath);
         try {
             scan = new Scanner(file);
+            return true;
         } catch (FileNotFoundException e) {
-            
-            System.out.println("FileNotFoundException" + e);
             e.printStackTrace();
+            return false;
         }
-
+    }
+    @Override
+    public void getAllCardFromFile(){
         scan.next();
         while (scan.hasNext()) {
             virus = scan.next().split(",");

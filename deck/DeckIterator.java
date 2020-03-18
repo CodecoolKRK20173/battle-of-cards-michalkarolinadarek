@@ -22,7 +22,6 @@ class DeckIterator implements Iterator<Card>{
 
     @Override
     public Card next() {
-        // index++;
         return viruses.get(index++);
     }
 

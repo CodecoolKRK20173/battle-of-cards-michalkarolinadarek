@@ -17,6 +17,9 @@ public class DeckController {
 
     public DeckController(String filepath) throws CloneNotSupportedException, FileNotFoundException {
         deckDAO = new DeckDAO(filepath); 
+        if(deckDAO.getDeckDAO() == null){
+            throw new FileNotFoundException();
+        }
         cardsFromDeckDAOUnique = deckDAO.getDeckDAO(); 
         cardsFromDeckDAOWithCopies = new ArrayList<>(); 
         random = new Random();
@@ -50,7 +53,7 @@ public class DeckController {
     public void drawCardsForPlayers(int countOfPLeayers, int numberOfCards){
         cardsForPlayers = new ArrayList<ArrayList<Card>>();
         
-        for(int i = 0; i< countOfPLeayers; i++){
+        for(int index = 0; index< countOfPLeayers; index++){
             ArrayList<Card> playerList = new ArrayList<>();
             cardsForPlayers.add(playerList);
         }
