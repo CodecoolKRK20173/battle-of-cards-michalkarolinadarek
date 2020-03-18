@@ -6,7 +6,12 @@ public class CardPainfulnessComparator implements Comparator<Card>{
 
     @Override
     public int compare(Card card1, Card card2) {
-        return card1.getPainfulness() - card2.getPainfulness();
+        int result = card1.getPainfulness() - card2.getPainfulness();
+        if(result > 0)
+            return 1;
+        if(result < 0)
+            return -1;
+        return result;
     }
     
 }
