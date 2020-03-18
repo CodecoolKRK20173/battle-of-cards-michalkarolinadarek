@@ -18,7 +18,6 @@ class DeckDAO implements DeckDAOInterface {
     public DeckDAO(String filepath) throws FileNotFoundException {
         this.filepath = filepath;
         deck = new ArrayList<>();
-        scan = new Scanner(file);
         getAllCardFromFile();
     }
     public List<Card> getDeckDAO(){
@@ -27,7 +26,14 @@ class DeckDAO implements DeckDAOInterface {
     @Override
     public void getAllCardFromFile(){
         file = new File(filepath);
-        
+        try {
+            scan = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            
+            System.out.println("FileNotFoundException" + e);
+            e.printStackTrace();
+        }
+
         scan.next();
         while (scan.hasNext()) {
             virus = scan.next().split(",");
