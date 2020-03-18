@@ -45,6 +45,7 @@ public class Card implements Comparable<Card>,Cloneable {
         return -1;
     }
 
+    @Override
     public String toString() throws IndexOutOfBoundsException {
         String output = name.toUpperCase() + "\n" + "\n";
         
