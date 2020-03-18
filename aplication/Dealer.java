@@ -23,12 +23,14 @@ public class Dealer {
     private AbstractPlayer currentPlayer;
     private AbstractPlayer nextPlayer;
     private List<Card> tempStack;
+    private List<Integer> gameResults;
 
     public Dealer() {
         view = new View();
         input = new InputManager();
         playersList = new ArrayList<>();
         tempStack = new ArrayList<>();
+        gameResults = new ArrayList<Integer>();
     }
     
     public void run() {
@@ -74,20 +76,20 @@ public class Dealer {
             Card nextPlayerCard = nextPlayer.getTopCard();
             
             view.print(currentPlayerCard);
-            compareCards(currentPlayerCard, nextPlayerCard);
+            manageCardsFight(currentPlayerCard, nextPlayerCard);
             view.print(currentPlayerCard, nextPlayerCard);
             changeCurrentPlayer();
         }
         decideWhoWon();
     }
 
-    private void compareCards(Card card1, Card card2){
+    private void manageCardsFight(Card card1, Card card2){
         int statToCompare = input.askForStatToCompare();
-        int comparisonResult = getRightComparator(card1, card2, statToCompare);
-        manageCardsAfterComparison(card1, card2, comparisonResult);
+        int comparisonResult = compareCards(card1, card2, statToCompare);
+        manageCardsAfterRound(card1, card2, comparisonResult);
     }
 
-    private int getRightComparator(Card card1, Card card2, int statToCompare) {
+    private int compareCards(Card card1, Card card2, int statToCompare) {
         int comparisonResult = 0;
         Comparator<Card> comparator;
         switch(statToCompare){
@@ -115,7 +117,7 @@ public class Dealer {
         return comparisonResult;
     }
 
-    private void manageCardsAfterComparison(Card card1, Card card2, int comparisonResult) {
+    private void manageCardsAfterRound(Card card1, Card card2, int comparisonResult) {
         if (comparisonResult != 0) {
             AbstractPlayer roundWinner = (comparisonResult > 0) ? currentPlayer : nextPlayer;
             roundWinner.takeWonCard(card1);
@@ -128,6 +130,39 @@ public class Dealer {
             view.print("It's a tie! These two cards will get to the winner of the next round.");
         }
     }
+    
+    private void decideWhoWon() {
+        view.print("The game is over!");
+        AbstractPlayer winner = getWinner();
+ 
+        if (checkIfTie(gameResults)) {
+            view.print("It's a tie!");
+        } else {
+            view.print(String.format("The winner of the game is %s! Congratulations!", winner.getName()));
+        }
+    }
+
+    private AbstractPlayer getWinner() {
+        AbstractPlayer winner = playersList.get(0);
+     
+        for (AbstractPlayer player : playersList) {
+            int result = player.getUsedPileCount();
+            view.print(String.format("%s has %d points!", player.getName(), result));
+            gameResults.add(result);
+            
+            if(result > winner.getUsedPileCount()) {
+                winner = player;
+            }
+        }
+        return winner;
+    }
+
+    private boolean checkIfTie(List<Integer> listOfResults) {
+        Set<Integer> setFromList = new HashSet<Integer>(listOfResults);
+        boolean hasDuplicates = (setFromList.size() < listOfResults.size()) ? true : false;
+        
+        return hasDuplicates;
+    }
 
     private void pullFromTempStack(AbstractPlayer player){
         for(Card card: tempStack){
@@ -139,33 +174,5 @@ public class Dealer {
         AbstractPlayer temp = currentPlayer;
         currentPlayer = nextPlayer;
         nextPlayer = temp;
-    }
-
-    private void decideWhoWon() {
-        AbstractPlayer winner = playersList.get(0);
-        List<Integer> allResults = new ArrayList<Integer>();
-        view.print("The game is over!");
-
-        for (AbstractPlayer player : playersList) {
-            int result = player.getUsedPileCount();
-            view.print(String.format("%s has %d points!", player.getName(), result));
-            allResults.add(result);
-            
-            if(result > winner.getUsedPileCount()) {
-                winner = player;
-            }
-        }
-        if (checkIfTie(allResults)) {
-            view.print("It's a tie!");
-        } else {
-            view.print(String.format("The winner of the game is %s! Congratulations!", winner.getName()));
-        }
-    }
-
-    private boolean checkIfTie(List<Integer> listOfResults) {
-        Set<Integer> setFromList = new HashSet<Integer>(listOfResults);
-        boolean hasDuplicates = (setFromList.size() < listOfResults.size()) ? true : false;
-        
-        return hasDuplicates;
     }
 }
