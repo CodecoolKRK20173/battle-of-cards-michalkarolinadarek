@@ -32,7 +32,7 @@ public class HumanPlayer extends AbstractPlayer {
 
     @Override
     public int getUsedPileCount(){
-        return usedPile.usedCards.size();
+        return usedPile.getCount();
     }
 
     @Override
