@@ -8,16 +8,19 @@ import java.util.Random;
 import cards.Card;
 
 public class DeckController {
-    DeckDAO deckDAO;
-    List<Card> cardsFromDeckDAOUnique;
-    List<Card> cardsFromDeckDAOWithCopies;
-    List<ArrayList<Card>> cardsForPlayers;
-    Random random;
-    int turnSwitcher = 0;
+    private DeckDAO deckDAO;
+    private List<Card> cardsFromDeckDAOUnique;
+    private List<Card> cardsFromDeckDAOWithCopies;
+    private List<ArrayList<Card>> cardsForPlayers;
+    private Random random;
+    private int turnSwitcher = 0;
 
     public DeckController(String filepath) throws CloneNotSupportedException, FileNotFoundException {
         deckDAO = new DeckDAO(filepath); 
-        cardsFromDeckDAOUnique = deckDAO.deck; 
+        if(deckDAO.getDeck() == null){
+            throw new FileNotFoundException(filepath);
+        }
+        cardsFromDeckDAOUnique = deckDAO.getDeck(); 
         cardsFromDeckDAOWithCopies = new ArrayList<>(); 
         random = new Random();
         
@@ -27,7 +30,7 @@ public class DeckController {
     private void createDeckOfCopyCards() throws CloneNotSupportedException {
         for(Card cardObject : cardsFromDeckDAOUnique){
             int numberOfCopy = cardObject.getType();
-            for(int i = 0; i< numberOfCopy; i++){
+            for(int index = 0; index< numberOfCopy; index++){
                 Card cardClone = (Card)cardObject.clone();
                 cardsFromDeckDAOWithCopies.add(cardClone);
             }
@@ -50,11 +53,11 @@ public class DeckController {
     public void drawCardsForPlayers(int countOfPLeayers, int numberOfCards){
         cardsForPlayers = new ArrayList<ArrayList<Card>>();
         
-        for(int i = 0; i< countOfPLeayers; i++){
+        for(int index = 0; index< countOfPLeayers; index++){
             ArrayList<Card> playerList = new ArrayList<>();
             cardsForPlayers.add(playerList);
         }
-        for(int i = 1; i <= countOfPLeayers * numberOfCards; i++){
+        for(int index = 1; index <= countOfPLeayers * numberOfCards; index++){
             if(turnSwitcher < countOfPLeayers) {
                 Card randomCardforPlayer = getRandomCard();
                 markAsHasOwner(randomCardforPlayer);
@@ -62,7 +65,7 @@ public class DeckController {
                 turnSwitcher++;
             } else {
                 turnSwitcher = 0;
-                i--;
+                index--;
             } 
         }
     }

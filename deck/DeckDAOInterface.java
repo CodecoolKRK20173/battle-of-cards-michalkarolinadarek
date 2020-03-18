@@ -1,8 +1,10 @@
 package deck;
 
-import java.io.FileNotFoundException;
+import java.util.List;
 
-public interface DeckDAOInterface{
+import cards.Card;
 
-     void getAllCardFromFile() throws FileNotFoundException;
+public interface DeckDAOInterface {
+
+     public List<Card> getDeck();
 }

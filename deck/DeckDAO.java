@@ -12,19 +12,35 @@ class DeckDAO implements DeckDAOInterface {
     private File file;
     private Scanner scan;
     private String filepath;
-    public String[] virus;
-    public List<Card> deck;
+    private String[] virus;
+    private List<Card> deck;
 
-    public DeckDAO(String filepath) throws FileNotFoundException {
+    public DeckDAO(String filepath){
         this.filepath = filepath;
-        deck = new ArrayList<>();
-        getAllCardFromFile();
+       
+        if(readFromFile()){
+            deck = new ArrayList<>();
+            loadAllCardFromFile();
+        }
+       
+    }
+    
+    @Override
+    public List<Card> getDeck(){
+        return deck;
     }
 
-    @Override
-    public void getAllCardFromFile() throws FileNotFoundException {
+    private boolean readFromFile(){
         file = new File(filepath);
-        scan = new Scanner(file);
+        try {
+            scan = new Scanner(file);
+            return true;
+        } catch (FileNotFoundException e) {
+            return false;
+        }
+    }
+    
+    private void loadAllCardFromFile(){
         scan.next();
         while (scan.hasNext()) {
             virus = scan.next().split(",");
