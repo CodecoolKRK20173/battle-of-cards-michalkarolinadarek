@@ -16,15 +16,13 @@ import player.HumanPlayer;
 public class Dealer {
     private final int COUNT_OF_PLAYERS = 2;
     private final int COUNT_OF_ROUNDS = 10;
-    
     private View view;
     private InputManager input;
     private DeckController deckController;
     private List<AbstractPlayer> playersList;
-    private List<Card> tempStack;
-    
     private AbstractPlayer currentPlayer;
     private AbstractPlayer nextPlayer;
+    private List<Card> tempStack;
 
     public Dealer() {
         view = new View();
@@ -34,24 +32,22 @@ public class Dealer {
     }
     
     public void run() {
-        loadDeckController("deck/virus.csv");
-        setPlayers(COUNT_OF_PLAYERS);
-        prepareGame();
-        playGameFor2Players();
-    }
-
-    private void loadDeckController(String filepath) {
         try {
-            deckController = new DeckController(filepath);
+            deckController = new DeckController("deck/virus.csv");
+            setPlayers(COUNT_OF_PLAYERS);
+            prepareGame();
+            playGameFor2Players();
         } catch (FileNotFoundException e) {
             view.print("File not found. " + e.getMessage());
         } catch (CloneNotSupportedException e) {
             view.print("Can't make clone of Card object. " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            view.print("There is not enough cards to give to players. " + e.getMessage());
         }
     }
 
     private void setPlayers(int numberOfPlayers) {
-        for (int i = 1; i <= numberOfPlayers; i++){
+        for (int i = 1; i <= numberOfPlayers; i++) {
             String name = input.askForName("Player " + i);
             AbstractPlayer player = new HumanPlayer(name);
             playersList.add(player);
@@ -61,41 +57,67 @@ public class Dealer {
     }
 
     private void prepareGame() {
-        try {
-            deckController.drawCardsForPlayers(COUNT_OF_PLAYERS, COUNT_OF_ROUNDS);
-            List<ArrayList<Card>> temp = deckController.getCardsForPlayers();
-            int index = 0;
-            for(ArrayList<Card> cardsForPlayer : temp){
-                playersList.get(index).setCardToHand(cardsForPlayer);
-                index++;
-            }
-        } catch (IllegalArgumentException e) {
-            view.print("There is not enough cards to give to players. " + e.getMessage());
+        deckController.drawCardsForPlayers(COUNT_OF_PLAYERS, COUNT_OF_ROUNDS);
+        List<ArrayList<Card>> cardsForAllPlayers = deckController.getCardsForPlayers();
+        int index = 0;
+        for(ArrayList<Card> cardsForPlayer : cardsForAllPlayers) {
+            playersList.get(index).setCardToHand(cardsForPlayer);
+            index++;
         }
     }
 
     private void playGameFor2Players() {
-        for (int round = 1; round <= COUNT_OF_ROUNDS ;round++) {
+        for (int round = 1; round <= COUNT_OF_ROUNDS; round++) {
             view.print(String.format("Round number %d! %s's turn to choose!", round, currentPlayer.getName()));
-            
+
             Card currentPlayerCard = currentPlayer.getTopCard();
             Card nextPlayerCard = nextPlayer.getTopCard();
             
             view.print(currentPlayerCard);
-            int statToCompare = input.askForStatToCompare();
+            compareCards(currentPlayerCard, nextPlayerCard);
             view.print(currentPlayerCard, nextPlayerCard);
-
-            compareCards(currentPlayerCard, nextPlayerCard, statToCompare);
             changeCurrentPlayer();
         }
         decideWhoWon();
     }
 
-    private void compareCards(Card card1, Card card2, int statToCompare){
-        int compareResult = callForComparator(card1, card2, statToCompare);
+    private void compareCards(Card card1, Card card2){
+        int statToCompare = input.askForStatToCompare();
+        int comparisonResult = getRightComparator(card1, card2, statToCompare);
+        manageCardsAfterComparison(card1, card2, comparisonResult);
+    }
 
-        if (compareResult != 0) {
-            AbstractPlayer roundWinner = (compareResult > 0) ? currentPlayer : nextPlayer;
+    private int getRightComparator(Card card1, Card card2, int statToCompare) {
+        int comparisonResult = 0;
+        Comparator<Card> comparator;
+        switch(statToCompare){
+            case 1:
+                comparator = new CardInfectvityComparator();
+                comparisonResult = comparator.compare(card1, card2);
+                break;
+            case 2:
+                comparator = new CardDeathsComparator();
+                comparisonResult = comparator.compare(card1, card2);
+                break;
+            case 3:
+                comparator = new CardIncubationComparator();
+                comparisonResult = comparator.compare(card1, card2);
+                break;
+            case 4:
+                comparator = new CardPainfulnessComparator();
+                comparisonResult = comparator.compare(card1, card2);
+                break;
+            case 5:
+                comparator = new CardPanicLevelComparator();
+                comparisonResult = comparator.compare(card1, card2);
+                break;    
+        }
+        return comparisonResult;
+    }
+
+    private void manageCardsAfterComparison(Card card1, Card card2, int comparisonResult) {
+        if (comparisonResult != 0) {
+            AbstractPlayer roundWinner = (comparisonResult > 0) ? currentPlayer : nextPlayer;
             roundWinner.takeWonCard(card1);
             roundWinner.takeWonCard(card2);
             pullFromTempStack(roundWinner);
@@ -105,34 +127,6 @@ public class Dealer {
             tempStack.add(card2);
             view.print("It's a tie! These two cards will get to the winner of the next round.");
         }
-    }
-
-    private int callForComparator(Card card1, Card card2, int statToCompare) {
-        int compareResult = 0;
-        Comparator<Card> comp;
-        switch(statToCompare){
-            case 1:
-                comp = new CardDeathsComparator();
-                compareResult = comp.compare(card1, card2);
-                break;
-            case 2:
-                comp = new CardIncubationComparator();
-                compareResult = comp.compare(card1, card2);
-                break;
-            case 3:
-                comp = new CardInfectvityComparator();
-                compareResult = comp.compare(card1, card2);
-                break;
-            case 4:
-                comp = new CardPainfulnessComparator();
-                compareResult = comp.compare(card1, card2);
-                break;
-            case 5:
-                comp = new CardPanicLevelComparator();
-                compareResult = comp.compare(card1, card2);
-                break;    
-        }
-        return compareResult;
     }
 
     private void pullFromTempStack(AbstractPlayer player){
