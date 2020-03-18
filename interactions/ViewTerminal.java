@@ -7,6 +7,10 @@ public class ViewTerminal extends View{
         System.out.println();
         System.out.println(" " + message);
     }
+
+    public void printEmptyChar() {
+        System.out.print(" ");
+    }
     
     public void print(Card card) throws IndexOutOfBoundsException {
         String[] lines = card.toString().split("\n");

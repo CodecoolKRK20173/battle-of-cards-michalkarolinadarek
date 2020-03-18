@@ -3,7 +3,7 @@ package interactions;
 import java.util.Scanner;
 
 public class InputManager {
-    private View view;
+    private ViewTerminal view;
 
     public InputManager() {
         view = new ViewTerminal();
@@ -11,6 +11,7 @@ public class InputManager {
 
     private String getStringInput(String message) {
         view.print(message);
+        view.printEmptyChar();
         Scanner scannerFromUser = new Scanner(System.in);
         String input = scannerFromUser.nextLine();
         
@@ -19,6 +20,7 @@ public class InputManager {
 
     private int getIntInput(String message) {
         view.print(message);
+        view.printEmptyChar();
         int input = 0;
         Scanner scannerFromUser = new Scanner(System.in);
 
