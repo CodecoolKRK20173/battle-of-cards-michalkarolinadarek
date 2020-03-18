@@ -21,8 +21,14 @@ public class InputManager {
     private int getIntInput(String message) {
         System.out.println("\n " + message);
         System.out.print(" ");
+        int input = 0;
         Scanner scannerFromUser = new Scanner(System.in);
-        int input = scannerFromUser.nextInt();
+
+        while(!scannerFromUser.hasNextInt()){
+            System.out.println("Wrong input! Please insert the integer number");
+            scannerFromUser.next();
+        }
+        input = scannerFromUser.nextInt();
         
         return input;
     }
