@@ -7,11 +7,11 @@ import cards.Card;
 
 class DeckIterator implements Iterator<Card>{
 
-    int index = 0;
-    List<Card> viruses;
+    private int index = 0;
+    private List<Card> viruses;
 
     DeckIterator(DeckDAO deckdao){
-        this.viruses = deckdao.deck;
+        this.viruses = deckdao.getDeckDAO();
 
     }
     @Override
