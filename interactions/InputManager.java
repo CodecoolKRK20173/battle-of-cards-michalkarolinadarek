@@ -10,8 +10,7 @@ public class InputManager {
     }
 
     private String getStringInput(String message) {
-        System.out.println(" " + message);
-        System.out.print(" ");
+        view.print(message);
         Scanner scannerFromUser = new Scanner(System.in);
         String input = scannerFromUser.nextLine();
         
@@ -19,13 +18,12 @@ public class InputManager {
     }
 
     private int getIntInput(String message) {
-        System.out.println("\n " + message);
-        System.out.print(" ");
+        view.print(message);
         int input = 0;
         Scanner scannerFromUser = new Scanner(System.in);
 
         while(!scannerFromUser.hasNextInt()){
-            System.out.println("Wrong input! Please insert the integer number");
+            view.print("Wrong input! Please insert the integer number");
             scannerFromUser.next();
         }
         input = scannerFromUser.nextInt();
