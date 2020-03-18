@@ -27,7 +27,7 @@ public class Dealer {
     private AbstractPlayer winner;
 
     public Dealer() {
-        view = new View();
+        view = new ViewTerminal();
         input = new InputManager();
         playersList = new ArrayList<>();
         tempStack = new ArrayList<>();
