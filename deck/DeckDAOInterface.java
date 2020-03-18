@@ -1,7 +1,10 @@
 package deck;
 
+import java.util.List;
 
-public interface DeckDAOInterface{
+import cards.Card;
 
-     void getAllCardFromFile();
+public interface DeckDAOInterface {
+
+     public List<Card> getDeck();
 }

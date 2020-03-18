@@ -11,7 +11,7 @@ class DeckIterator implements Iterator<Card>{
     private List<Card> viruses;
 
     DeckIterator(DeckDAO deckdao){
-        this.viruses = deckdao.getDeckDAO();
+        this.viruses = deckdao.getDeck();
 
     }
     @Override

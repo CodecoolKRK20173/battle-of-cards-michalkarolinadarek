@@ -20,13 +20,16 @@ class DeckDAO implements DeckDAOInterface {
        
         if(readFromFile()){
             deck = new ArrayList<>();
-            getAllCardFromFile();
+            loadAllCardFromFile();
         }
        
     }
-    public List<Card> getDeckDAO(){
+    
+    @Override
+    public List<Card> getDeck(){
         return deck;
     }
+
     private boolean readFromFile(){
         file = new File(filepath);
         try {
@@ -36,8 +39,8 @@ class DeckDAO implements DeckDAOInterface {
             return false;
         }
     }
-    @Override
-    public void getAllCardFromFile(){
+    
+    private void loadAllCardFromFile(){
         scan.next();
         while (scan.hasNext()) {
             virus = scan.next().split(",");
