@@ -2,6 +2,7 @@ package aplication;
 
 public class Main {
     public static void main(String[] args) {
-        new Dealer();
+        Dealer dealer = new Dealer();
+        dealer.run();
     }
 }

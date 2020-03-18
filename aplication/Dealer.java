@@ -27,46 +27,50 @@ public class Dealer {
     private AbstractPlayer nextPlayer;
 
     public Dealer() {
-        try {
-            view = new View();
-            input = new InputManager();
-            playersList = new ArrayList<>();
-            tempStack = new ArrayList<>();
-            deckController = new DeckController("deck/virus.csv"); 
+        view = new View();
+        input = new InputManager();
+        playersList = new ArrayList<>();
+        tempStack = new ArrayList<>();
+    }
+    
+    public void run() {
+        loadDeckController("deck/virus.csv");
+        setPlayers(COUNT_OF_PLAYERS);
+        prepareGame();
+        playGameFor2Players();
+    }
 
-            setPlayers(COUNT_OF_PLAYERS);
-            currentPlayer = playersList.get(0);
-            nextPlayer = playersList.get(1);
-            
-            prepareGame();
-            playGameFor2Players();
-        
+    private void loadDeckController(String filepath) {
+        try {
+            deckController = new DeckController(filepath);
         } catch (FileNotFoundException e) {
             view.print("File not found. " + e.getMessage());
         } catch (CloneNotSupportedException e) {
             view.print("Can't make clone of Card object. " + e.getMessage());
-        } catch (IndexOutOfBoundsException e) {
-            view.print("Index error while printing cards. " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            view.print("There is not enough cards to give to players. " + e.getMessage());
         }
     }
-     
+
     private void setPlayers(int numberOfPlayers) {
         for (int i = 1; i <= numberOfPlayers; i++){
             String name = input.askForName("Player " + i);
             AbstractPlayer player = new HumanPlayer(name);
             playersList.add(player);
         }
+        currentPlayer = playersList.get(0);
+        nextPlayer = playersList.get(1);
     }
 
     private void prepareGame() {
-        deckController.drawCardsForPlayers(COUNT_OF_PLAYERS, COUNT_OF_ROUNDS);
-        List<ArrayList<Card>> temp = deckController.getCardsForPlayers();
-        int index = 0;
-        for(ArrayList<Card> cardsForPlayer : temp){
-            playersList.get(index).setCardToHand(cardsForPlayer);
-            index++;
+        try {
+            deckController.drawCardsForPlayers(COUNT_OF_PLAYERS, COUNT_OF_ROUNDS);
+            List<ArrayList<Card>> temp = deckController.getCardsForPlayers();
+            int index = 0;
+            for(ArrayList<Card> cardsForPlayer : temp){
+                playersList.get(index).setCardToHand(cardsForPlayer);
+                index++;
+            }
+        } catch (IllegalArgumentException e) {
+            view.print("There is not enough cards to give to players. " + e.getMessage());
         }
     }
 
