@@ -24,6 +24,7 @@ public class Dealer {
     private AbstractPlayer nextPlayer;
     private List<Card> tempStack;
     private List<Integer> gameResults;
+    private AbstractPlayer winner;
 
     public Dealer() {
         view = new View();
@@ -71,16 +72,15 @@ public class Dealer {
     private void playGameFor2Players() {
         for (int round = 1; round <= COUNT_OF_ROUNDS; round++) {
             view.print(String.format("Round number %d! %s's turn to choose!", round, currentPlayer.getName()));
-
             Card currentPlayerCard = currentPlayer.getTopCard();
             Card nextPlayerCard = nextPlayer.getTopCard();
-            
+
             view.print(currentPlayerCard);
             manageCardsFight(currentPlayerCard, nextPlayerCard);
             view.print(currentPlayerCard, nextPlayerCard);
             changeCurrentPlayer();
         }
-        decideWhoWon();
+        manageEndOfGame();
     }
 
     private void manageCardsFight(Card card1, Card card2){
@@ -131,30 +131,30 @@ public class Dealer {
         }
     }
     
-    private void decideWhoWon() {
+    private void manageEndOfGame() {
         view.print("The game is over!");
-        AbstractPlayer winner = getWinner();
- 
+        getWinner();
+        showGameResults();   
+    }
+
+    private void getWinner() {
+        winner = playersList.get(0);
+        for (AbstractPlayer player : playersList) {
+            int result = player.getUsedPileCount();
+            view.print(String.format("%s has %d points!", player.getName(), result));
+            gameResults.add(result);
+            if(result > winner.getUsedPileCount()) {
+                winner = player;
+            }
+        }
+    }
+
+    private void showGameResults() {
         if (checkIfTie(gameResults)) {
             view.print("It's a tie!");
         } else {
             view.print(String.format("The winner of the game is %s! Congratulations!", winner.getName()));
         }
-    }
-
-    private AbstractPlayer getWinner() {
-        AbstractPlayer winner = playersList.get(0);
-     
-        for (AbstractPlayer player : playersList) {
-            int result = player.getUsedPileCount();
-            view.print(String.format("%s has %d points!", player.getName(), result));
-            gameResults.add(result);
-            
-            if(result > winner.getUsedPileCount()) {
-                winner = player;
-            }
-        }
-        return winner;
     }
 
     private boolean checkIfTie(List<Integer> listOfResults) {
