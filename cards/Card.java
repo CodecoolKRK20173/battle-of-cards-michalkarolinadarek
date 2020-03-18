@@ -1,6 +1,5 @@
 package cards;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Card implements Comparable<Card>,Cloneable {
@@ -11,12 +10,12 @@ public class Card implements Comparable<Card>,Cloneable {
     final Integer ID_PAINFULNESS = 5;
     final Integer ID_PANIC_LEVEL = 6;
     
-    String name;
+    private String name;
     HashMap<String, Integer> parametersMap;
-    Boolean hasOwner;
-    Integer type;
+    private Boolean hasOwner;
+    private Integer type;
     private String[] titles = {"name", "type", "infected", "deaths", "incubation", "painfulness", "panic level"};
-    private String[] units = {"since 2010", "since 2010", "days", "%", "%"};
+    private String[] unitsForPArameters = {"since 2010", "since 2010", "days", "%", "%"};
 
 
     public Card(String[] cardParameters){
@@ -45,13 +44,15 @@ public class Card implements Comparable<Card>,Cloneable {
         return -1;
     }
 
+    @Override
     public String toString() throws IndexOutOfBoundsException {
         String output = name.toUpperCase() + "\n" + "\n";
-        
+        Integer indexUnitForParameters = 0;
         for(String key: titles){
             if(parametersMap.containsKey(key)) {
-                int i = Arrays.asList(titles).indexOf(key);
-                output += String.format("%s (%s): %d\n", key, units[i-2], parametersMap.get(key));
+                String unit = unitsForPArameters[indexUnitForParameters];
+                output += String.format("%s (%s): %d\n", key, unit, parametersMap.get(key));
+                indexUnitForParameters++;
             }
         }
         return output;
