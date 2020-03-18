@@ -14,19 +14,19 @@ import player.AbstractPlayer;
 import player.HumanPlayer;
 
 public class Dealer {
-    View view;
-    InputManager input;
-    DeckController deckController;
-    List<AbstractPlayer> playersList;
-    List<Card> tempStack;
+    private final int COUNT_OF_PLAYERS = 2;
+    private final int COUNT_OF_ROUNDS = 10;
     
-    AbstractPlayer currentPlayer;
-    AbstractPlayer nextPlayer;
+    private View view;
+    private InputManager input;
+    private DeckController deckController;
+    private List<AbstractPlayer> playersList;
+    private List<Card> tempStack;
+    
+    private AbstractPlayer currentPlayer;
+    private AbstractPlayer nextPlayer;
 
-    final int COUNT_OF_PLAYERS = 2;
-    final int COUNT_OF_ROUNDS = 10;
-
-    public Dealer() throws CloneNotSupportedException {
+    public Dealer() {
         try {
             view = new View();
             input = new InputManager();

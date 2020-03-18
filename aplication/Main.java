@@ -1,9 +1,7 @@
 package aplication;
 
-import java.io.FileNotFoundException;
-
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException, CloneNotSupportedException {
+    public static void main(String[] args) {
         new Dealer();
     }
 }
