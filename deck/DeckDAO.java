@@ -20,11 +20,6 @@ public class DeckDAO implements DeckDAOInterface {
         readFromFile();
         loadAllCardFromFile();
     }
-    
-    @Override
-    public List<Card> getDeck(){
-        return deck;
-    }
 
     private void readFromFile() throws FileNotFoundException{
         file = new File(filepath);
@@ -40,6 +35,16 @@ public class DeckDAO implements DeckDAOInterface {
             deck.add(card);
 
         }
+    }
+        
+    @Override
+    public List<Card> getDeck(){
+        return deck;
+    }
+
+    @Override
+    public Card getCard(int index) {
+        return deck.get(index);
     }
   
 }
