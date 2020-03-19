@@ -15,20 +15,24 @@ public class Card implements Comparable<Card>,Cloneable {
     private Boolean hasOwner;
     private Integer type;
     private String[] titles = {"name", "type", "infected", "deaths", "incubation", "painfulness", "panic level"};
-    private String[] unitsForPArameters = {"since 2010", "since 2010", "days", "%", "%"};
+    private String[] unitsForParameters = {"since 2010", "since 2010", "days", "%", "%"};
 
 
     public Card(String[] cardParameters){
         this.name = cardParameters[0]; // The first value is a name
         this.type = Integer.parseInt(cardParameters[1]); // The second value is a type
-
-        this.parametersMap = new HashMap<String, Integer>();
-        for(int index = 2; index < titles.length ; index++){
-            this.parametersMap.put(titles[index], Integer.parseInt(cardParameters[index]));
-        }
-        this.hasOwner = false;
+        hasOwner = false;
+        loadParametersOfCard(cardParameters);
     }
-
+    
+    
+    public HashMap<String, Integer> loadParametersOfCard(String[] cardParameters){
+        parametersMap = new HashMap<String, Integer>();
+        for(int index = 2; index < titles.length ; index++){
+            parametersMap.put(titles[index], Integer.parseInt(cardParameters[index]));
+        }
+        return parametersMap;
+    }
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
@@ -50,7 +54,7 @@ public class Card implements Comparable<Card>,Cloneable {
         Integer indexUnitForParameters = 0;
         for(String key: titles){
             if(parametersMap.containsKey(key)) {
-                String unit = unitsForPArameters[indexUnitForParameters];
+                String unit = unitsForParameters[indexUnitForParameters];
                 output += String.format("%s (%s): %d\n", key, unit, parametersMap.get(key));
                 indexUnitForParameters++;
             }
