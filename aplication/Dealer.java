@@ -9,6 +9,7 @@ import java.util.Set;
 
 import cards.*;
 import deck.DeckController;
+import deck.DeckDAO;
 import interactions.*;
 import player.AbstractPlayer;
 import player.HumanPlayer;
@@ -36,7 +37,7 @@ public class Dealer {
     
     public void run() {
         try {
-            deckController = new DeckController("resources/virus.csv");
+            deckController = new DeckController(new DeckDAO("resources/virus.csv"));
             setPlayers(COUNT_OF_PLAYERS);
             prepareGame();
             playGameFor2Players();

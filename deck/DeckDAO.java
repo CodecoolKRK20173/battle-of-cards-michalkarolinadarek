@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 import cards.*;
 
-class DeckDAO implements DeckDAOInterface {
+public class DeckDAO implements DeckDAOInterface {
 
     private File file;
     private Scanner scan;
