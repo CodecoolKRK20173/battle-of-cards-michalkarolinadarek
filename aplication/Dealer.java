@@ -28,6 +28,15 @@ public class Dealer {
     private AbstractPlayer winner;
 
     public Dealer() {
+        try{
+            deckController = new DeckController(new DeckDAO("resources/virus.csv"));
+        } catch (FileNotFoundException e) {
+            view.print("File not found. " + e.getMessage());
+        } catch (CloneNotSupportedException e) {
+            view.print("Can't make clone of Card object. " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            view.print("There is not enough cards to give to players. " + e.getMessage());
+        }
         view = new ViewTerminal();
         input = new InputManager();
         playersList = new ArrayList<>();
@@ -36,18 +45,9 @@ public class Dealer {
     }
     
     public void run() {
-        try {
-            deckController = new DeckController(new DeckDAO("resources/virus.csv"));
-            setPlayers(COUNT_OF_PLAYERS);
-            prepareGame();
-            playGameFor2Players();
-        } catch (FileNotFoundException e) {
-            view.print("File not found. " + e.getMessage());
-        } catch (CloneNotSupportedException e) {
-            view.print("Can't make clone of Card object. " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            view.print("There is not enough cards to give to players. " + e.getMessage());
-        }
+        setPlayers(COUNT_OF_PLAYERS);
+        prepareGame();
+        playGameFor2Players();
     }
 
     private void setPlayers(int numberOfPlayers) {
