@@ -46,5 +46,47 @@ public class DeckDAO implements DeckDAOInterface {
     public Card getCard(int index) {
         return deck.get(index);
     }
+
+    @Override
+    public void updateDeck(List<Card> deck) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void updateCard(Card card) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void updateCard(int index) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void deleteCard(Card card) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void deleteCard(int index) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void deleteDeck() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void createCard(Card card) {
+        // TODO Auto-generated method stub
+
+    }
   
 }
