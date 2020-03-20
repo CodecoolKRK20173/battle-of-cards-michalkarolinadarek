@@ -3,6 +3,7 @@ package interactions;
 import cards.Card;
 
 public class ViewTerminal extends View{
+    @Override
     public void print(String message) {
         System.out.println();
         System.out.println(" " + message);
@@ -12,7 +13,8 @@ public class ViewTerminal extends View{
         System.out.print(" ");
     }
     
-    public void print(Card card) throws IndexOutOfBoundsException {
+    @Override
+    public void print(Card card) {
         String[] lines = card.toString().split("\n");
 
         System.out.println();
@@ -23,7 +25,8 @@ public class ViewTerminal extends View{
         System.out.println(" " + "└" + "─".repeat(36) + "┘");
     }
 
-    public void print(Card card1, Card card2) throws IndexOutOfBoundsException {
+    @Override
+    public void print(Card card1, Card card2) {
         String[] lines1 = card1.toString().split("\n");
         String[] lines2 = card2.toString().split("\n");
 
@@ -36,6 +39,7 @@ public class ViewTerminal extends View{
         System.out.println(" " + "└" + "─".repeat(36) + "┘" + " " + "└" + "─".repeat(36) + "┘");
     }
 
+    @Override
     public void print(String[] list, String title) {
         System.out.println("\n " + title);
         for (int index = 1; index <= list.length; index++) {
