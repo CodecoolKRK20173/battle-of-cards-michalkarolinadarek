@@ -14,7 +14,7 @@ class MainTest {
             Card card = cards.get(0);
             //Card card =(Card) cards.get(0).clone();
             //card.setType(1);
-            dao.deleteCard(card);
+            dao.deleteCard(0);
             //dao.updateDeck(new ArrayList<Card>());
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block

@@ -92,8 +92,8 @@ public class DeckDAO implements DeckDAOInterface {
 
     @Override
     public void deleteCard(int index) {
-        // TODO Auto-generated method stub
-
+        deck.remove(index);
+        saveToFile(prepareToSave());
     }
 
     @Override
