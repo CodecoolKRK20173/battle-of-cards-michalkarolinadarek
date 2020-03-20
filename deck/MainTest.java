@@ -11,9 +11,10 @@ class MainTest {
         try {
             DeckDAO dao = new DeckDAO("resources/virus.csv");
             List<Card> cards = dao.getDeck();
-            Card card =(Card) cards.get(0).clone();
-            card.setType(1);
-            dao.updateCard(card, 0);
+            Card card = cards.get(0);
+            //Card card =(Card) cards.get(0).clone();
+            //card.setType(1);
+            dao.deleteCard(card);
             //dao.updateDeck(new ArrayList<Card>());
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
