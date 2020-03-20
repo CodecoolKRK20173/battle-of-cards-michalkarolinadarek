@@ -8,18 +8,15 @@ import java.util.Random;
 import cards.Card;
 
 public class DeckController {
-    private DeckDAO deckDAO;
+    private DeckDAOInterface deckDAO;
     private List<Card> cardsFromDeckDAOUnique;
     private List<Card> cardsFromDeckDAOWithCopies;
     private List<ArrayList<Card>> cardsForPlayers;
     private Random random;
     private int turnSwitcher = 0;
 
-    public DeckController(String filepath) throws CloneNotSupportedException, FileNotFoundException {
-        deckDAO = new DeckDAO(filepath); 
-        if(deckDAO.getDeck() == null){
-            throw new FileNotFoundException(filepath);
-        }
+    public DeckController(DeckDAOInterface dao) throws CloneNotSupportedException, FileNotFoundException {
+        deckDAO = dao;
         cardsFromDeckDAOUnique = deckDAO.getDeck(); 
         cardsFromDeckDAOWithCopies = new ArrayList<>(); 
         random = new Random();

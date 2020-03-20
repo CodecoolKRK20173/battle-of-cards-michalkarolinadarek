@@ -2,12 +2,14 @@ package deck;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import cards.*;
 
-class DeckDAO implements DeckDAOInterface {
+public class DeckDAO implements DeckDAOInterface {
 
     private File file;
     private Scanner scan;
@@ -15,32 +17,19 @@ class DeckDAO implements DeckDAOInterface {
     private String[] virus;
     private List<Card> deck;
 
-    public DeckDAO(String filepath){
+    public DeckDAO(String filepath) throws FileNotFoundException {
         this.filepath = filepath;
-       
-        if(readFromFile()){
-            deck = new ArrayList<>();
-            loadAllCardFromFile();
-        }
-       
-    }
-    
-    @Override
-    public List<Card> getDeck(){
-        return deck;
+        openFile();
+        loadAllCardFromFile();
     }
 
-    private boolean readFromFile(){
+    private void openFile() throws FileNotFoundException {
         file = new File(filepath);
-        try {
-            scan = new Scanner(file);
-            return true;
-        } catch (FileNotFoundException e) {
-            return false;
-        }
+        scan = new Scanner(file);
     }
-    
-    private void loadAllCardFromFile(){
+
+    private void loadAllCardFromFile() {
+        deck = new ArrayList<>();
         scan.next();
         while (scan.hasNext()) {
             virus = scan.next().split(",");
@@ -48,6 +37,75 @@ class DeckDAO implements DeckDAOInterface {
             deck.add(card);
 
         }
+    }
+
+    private String prepareToSave(){
+        String textToSave = "name,type,infected,deaths,incubation,painfulness,panic_level\n";
+        for(Card card: deck){
+            textToSave += String.format("%s,%s,%s,%s,%s,%s,%s\n",
+            card.getName(), card.getType(), card.getInfectvity(),
+            card.getDeaths(), card.getIncubation(), card.getPainfulness(), card.getPanicLevel());
+        }
+        return textToSave;
+    }
+
+    private void saveToFile(String contentToSave){
+        FileWriter fileWriter;
+        try {
+            fileWriter = new FileWriter(filepath);
+            fileWriter.write(contentToSave);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+        
+    @Override
+    public List<Card> getDeck(){
+        return deck;
+    }
+
+    @Override
+    public Card getCard(int index) {
+        return deck.get(index);
+    }
+
+    @Override
+    public void updateDeck(List<Card> deck) {
+        this.deck = deck;
+        saveToFile(prepareToSave());
+    }
+
+    @Override
+    public void updateCard(Card card, int index) {
+        deck.remove(index);
+        deck.add(index, card);
+        saveToFile(prepareToSave());
+    }
+
+    @Override
+    public void deleteCard(Card card) {
+        deck.remove(card);
+        saveToFile(prepareToSave());
+    }
+
+    @Override
+    public void deleteCard(int index) {
+        deck.remove(index);
+        saveToFile(prepareToSave());
+    }
+
+    @Override
+    public void deleteDeck() {
+        deck.clear();
+        saveToFile(prepareToSave());
+    }
+
+    @Override
+    public void addCard(Card card) {
+        deck.add(card);
+        saveToFile(prepareToSave());
     }
   
 }
