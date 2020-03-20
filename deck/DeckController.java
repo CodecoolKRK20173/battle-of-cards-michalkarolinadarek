@@ -18,7 +18,8 @@ public class DeckController {
     public DeckController(DeckDAOInterface dao) throws CloneNotSupportedException, FileNotFoundException {
         deckDAO = dao;
         cardsFromDeckDAOUnique = deckDAO.getDeck(); 
-        cardsFromDeckDAOWithCopies = new ArrayList<>(); 
+        cardsFromDeckDAOWithCopies = new ArrayList<>();
+        cardsForPlayers = new ArrayList<ArrayList<Card>>();
         random = new Random();
         
         createDeckOfCopyCards();
@@ -46,14 +47,15 @@ public class DeckController {
         return randomCardforPlayer;
     }
    
-   
     public void drawCardsForPlayers(int countOfPLeayers, int numberOfCards){
-        cardsForPlayers = new ArrayList<ArrayList<Card>>();
-        
         for(int index = 0; index< countOfPLeayers; index++){
             ArrayList<Card> playerList = new ArrayList<>();
             cardsForPlayers.add(playerList);
         }
+        fillEmptyArraysWithCards(countOfPLeayers, numberOfCards);
+    }
+
+    private void fillEmptyArraysWithCards(int countOfPLeayers, int numberOfCards) {
         for(int index = 1; index <= countOfPLeayers * numberOfCards; index++){
             if(turnSwitcher < countOfPLeayers) {
                 Card randomCardforPlayer = getRandomCard();
