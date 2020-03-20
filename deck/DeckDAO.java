@@ -103,9 +103,9 @@ public class DeckDAO implements DeckDAOInterface {
     }
 
     @Override
-    public void createCard(Card card) {
-        // TODO Auto-generated method stub
-
+    public void addCard(Card card) {
+        deck.add(card);
+        saveToFile(prepareToSave());
     }
   
 }

@@ -20,6 +20,6 @@ public interface DeckDAOInterface {
 
      public void deleteDeck();
 
-     public void createCard(Card card);
+     public void addCard(Card card);
      
 }
