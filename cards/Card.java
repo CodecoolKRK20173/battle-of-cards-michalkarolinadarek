@@ -2,33 +2,37 @@ package cards;
 
 import java.util.HashMap;
 
+
 public class Card implements Comparable<Card>,Cloneable {
     
-    final Integer ID_INFECTVITY = 2;
-    final Integer ID_DEATHS = 3;
-    final Integer ID_INCUBATION = 4;
-    final Integer ID_PAINFULNESS = 5;
-    final Integer ID_PANIC_LEVEL = 6;
+    // final Integer ID_INFECTVITY = 2;
+    // final Integer ID_DEATHS = 3;
+    // final Integer ID_INCUBATION = 4;
+    // final Integer ID_PAINFULNESS = 5;
+    // final Integer ID_PANIC_LEVEL = 6;
     
     private String name;
     HashMap<String, Integer> parametersMap;
     private Boolean hasOwner;
     private Integer type;
     private String[] titles = {"name", "type", "infected", "deaths", "incubation", "painfulness", "panic level"};
-    private String[] unitsForPArameters = {"since 2010", "since 2010", "days", "%", "%"};
-
+    private String[] unitsForParameters = {"since 2010", "since 2010", "days", "%", "%"};
 
     public Card(String[] cardParameters){
         this.name = cardParameters[0]; // The first value is a name
         this.type = Integer.parseInt(cardParameters[1]); // The second value is a type
-
-        this.parametersMap = new HashMap<String, Integer>();
-        for(int index = 2; index < titles.length ; index++){
-            this.parametersMap.put(titles[index], Integer.parseInt(cardParameters[index]));
-        }
-        this.hasOwner = false;
+        hasOwner = false;
+        loadParametersOfCard(cardParameters);
     }
-
+    
+    
+    public HashMap<String, Integer> loadParametersOfCard(String[] cardParameters){
+        parametersMap = new HashMap<String, Integer>();
+        for(int index = 2; index < titles.length ; index++){
+            parametersMap.put(titles[index], Integer.parseInt(cardParameters[index]));
+        }
+        return parametersMap;
+    }
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
@@ -50,7 +54,7 @@ public class Card implements Comparable<Card>,Cloneable {
         Integer indexUnitForParameters = 0;
         for(String key: titles){
             if(parametersMap.containsKey(key)) {
-                String unit = unitsForPArameters[indexUnitForParameters];
+                String unit = unitsForParameters[indexUnitForParameters];
                 output += String.format("%s (%s): %d\n", key, unit, parametersMap.get(key));
                 indexUnitForParameters++;
             }
@@ -90,23 +94,24 @@ public class Card implements Comparable<Card>,Cloneable {
 
     
     public int getDeaths(){
-        return parametersMap.get(titles[ID_DEATHS]);
+
+        return parametersMap.get(titles[Attributes.DEATHS.getIndex()]);
     }
 
     public int getIncubation(){
-        return parametersMap.get(titles[ID_INCUBATION]);
+        return parametersMap.get(titles[Attributes.INCUBATION.getIndex()]);
     }
 
     public int getInfectvity(){
-        return parametersMap.get(titles[ID_INFECTVITY]);
+        return parametersMap.get(titles[Attributes.INFECTVITY.getIndex()]);
     }
 
     public int getPainfulness(){
-        return parametersMap.get(titles[ID_PAINFULNESS]);
+        return parametersMap.get(titles[Attributes.PAINFULNESS.getIndex()]);
     }
 
     public int getPanicLevel(){
-        return parametersMap.get(titles[ID_PANIC_LEVEL]);
+        return parametersMap.get(titles[Attributes.PAINFULNESS.getIndex()]);
     }
 
     public int getType(){
