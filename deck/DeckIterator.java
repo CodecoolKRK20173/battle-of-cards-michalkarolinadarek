@@ -12,11 +12,10 @@ class DeckIterator implements Iterator<Card>{
 
     DeckIterator(DeckDAO deckdao){
         this.viruses = deckdao.getDeck();
-
     }
+    
     @Override
     public boolean hasNext() {
-      
         return index < viruses.size();
     }
 
