@@ -2,29 +2,21 @@ package cards;
 
 import java.util.HashMap;
 
+public class Card implements Comparable<Card>, Cloneable {
 
-public class Card implements Comparable<Card>,Cloneable {
-    
-    // final Integer ID_INFECTVITY = 2;
-    // final Integer ID_DEATHS = 3;
-    // final Integer ID_INCUBATION = 4;
-    // final Integer ID_PAINFULNESS = 5;
-    // final Integer ID_PANIC_LEVEL = 6;
-    
     private String name;
-    HashMap<String, Integer> parametersMap;
+    private HashMap<String, Integer> parametersMap;
     private Boolean hasOwner;
     private Integer type;
     private String[] titles = {"name", "type", "infected", "deaths", "incubation", "painfulness", "panic level"};
     private String[] unitsForParameters = {"since 2010", "since 2010", "days", "%", "%"};
 
     public Card(String[] cardParameters){
-        this.name = cardParameters[0]; // The first value is a name
-        this.type = Integer.parseInt(cardParameters[1]); // The second value is a type
+        this.name = cardParameters[0];
+        this.type = Integer.parseInt(cardParameters[1]); 
         hasOwner = false;
         loadParametersOfCard(cardParameters);
     }
-    
     
     public HashMap<String, Integer> loadParametersOfCard(String[] cardParameters){
         parametersMap = new HashMap<String, Integer>();
@@ -33,19 +25,20 @@ public class Card implements Comparable<Card>,Cloneable {
         }
         return parametersMap;
     }
+
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
     @Override
     public int compareTo(Card secondCard) {
-        if(this.name.compareTo(secondCard.name) >= 1){
+        if(this.name.compareTo(secondCard.name) >= 1) {
             return 1;
-        }
-        else if(this.name.compareTo(secondCard.name) == 0){
+        } else if(this.name.compareTo(secondCard.name) == 0) {
             return 0;
+        } else {
+            return -1;
         }
-        return -1;
     }
 
     @Override
@@ -91,10 +84,8 @@ public class Card implements Comparable<Card>,Cloneable {
     public String getName(){
         return this.name;
     }
-
     
     public int getDeaths(){
-
         return parametersMap.get(titles[Attributes.DEATHS.getIndex()]);
     }
 
@@ -118,10 +109,6 @@ public class Card implements Comparable<Card>,Cloneable {
         return type;
     }
 
-    public void setType(int valueOfType){
-        this.type = valueOfType;
-    }
-
     public void setHasOwner(boolean valueOfOwner){
         this.hasOwner = valueOfOwner;
     }
@@ -129,5 +116,4 @@ public class Card implements Comparable<Card>,Cloneable {
     public boolean getHasOwner(){
         return hasOwner;
     }
-
 }

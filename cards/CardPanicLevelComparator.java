@@ -12,6 +12,5 @@ public class CardPanicLevelComparator implements Comparator<Card>{
         if(result < 0)
             return -1;
         return result;
-    }
-    
+    } 
 }

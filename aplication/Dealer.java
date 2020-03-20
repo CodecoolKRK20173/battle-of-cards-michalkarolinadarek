@@ -28,7 +28,7 @@ public class Dealer {
     private AbstractPlayer winner;
 
     public Dealer() throws FileNotFoundException, CloneNotSupportedException {
-        initialDeckController();
+        initializeDeckController();
         view = new ViewTerminal();
         input = new InputManager();
         playersList = new ArrayList<>();
@@ -36,7 +36,7 @@ public class Dealer {
         gameResults = new ArrayList<Integer>();
     }
 
-    private void initialDeckController() throws FileNotFoundException, CloneNotSupportedException {
+    private void initializeDeckController() throws FileNotFoundException, CloneNotSupportedException {
         deckController = new DeckController(new DeckDAO("resources/virus.csv"));
     }
     
@@ -71,7 +71,6 @@ public class Dealer {
             view.print(String.format("Round number %d! %s's turn to choose!", round, currentPlayer.getName()));
             Card currentPlayerCard = currentPlayer.getTopCard();
             Card nextPlayerCard = nextPlayer.getTopCard();
-
             view.print(currentPlayerCard);
             manageCardsFight(currentPlayerCard, nextPlayerCard);
             view.print(currentPlayerCard, nextPlayerCard);

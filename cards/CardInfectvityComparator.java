@@ -1,4 +1,5 @@
 package cards;
+
 import java.util.Comparator;
 
 public class CardInfectvityComparator implements Comparator<Card>{
@@ -12,5 +13,4 @@ public class CardInfectvityComparator implements Comparator<Card>{
             return -1;
         return result;
     }
-
 }

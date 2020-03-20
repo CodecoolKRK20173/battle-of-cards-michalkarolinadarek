@@ -35,7 +35,6 @@ public class DeckDAO implements DeckDAOInterface {
             virus = scan.next().split(",");
             Card card = new Card(virus);
             deck.add(card);
-
         }
     }
 
@@ -58,7 +57,6 @@ public class DeckDAO implements DeckDAOInterface {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
     }
         
     @Override
