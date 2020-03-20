@@ -40,7 +40,7 @@ public class DeckDAO implements DeckDAOInterface {
     }
 
     private String prepareToSave(){
-        String textToSave = "name,type,infected,deaths,incubation,painfulness,panic level\n";
+        String textToSave = "name,type,infected,deaths,incubation,painfulness,panic_level\n";
         for(Card card: deck){
             textToSave += String.format("%s,%s,%s,%s,%s,%s,%s\n",
             card.getName(), card.getType(), card.getInfectvity(),
@@ -78,15 +78,10 @@ public class DeckDAO implements DeckDAOInterface {
     }
 
     @Override
-    public void updateCard(Card card) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void updateCard(int index) {
-        // TODO Auto-generated method stub
-
+    public void updateCard(Card card, int index) {
+        deck.remove(index);
+        deck.add(index, card);
+        saveToFile(prepareToSave());
     }
 
     @Override

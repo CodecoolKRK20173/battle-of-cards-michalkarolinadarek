@@ -12,9 +12,7 @@ public interface DeckDAOInterface {
 
      public void updateDeck(List<Card> deck);
 
-     public void updateCard(Card card);
-
-     public void updateCard(int index);
+     public void updateCard(Card card, int index);
 
      public void deleteCard(Card card);
 
