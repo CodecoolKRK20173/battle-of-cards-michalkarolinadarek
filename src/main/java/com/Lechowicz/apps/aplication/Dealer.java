@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.Lechowicz.apps.cards.*;
+import com.Lechowicz.apps.deck.DeckDAOxml;
 import com.Lechowicz.apps.interactions.View;
 import com.Lechowicz.apps.deck.DeckController;
 import com.Lechowicz.apps.deck.DeckDAO;
@@ -38,7 +39,7 @@ public class Dealer {
     }
 
     private void initializeDeckController() throws FileNotFoundException, CloneNotSupportedException {
-        deckController = new DeckController(new DeckDAO("src/main/resources/virus.csv"));
+        deckController = new DeckController(new DeckDAOxml("src/main/resources/virus.xml"));
     }
     
     public void run() {
