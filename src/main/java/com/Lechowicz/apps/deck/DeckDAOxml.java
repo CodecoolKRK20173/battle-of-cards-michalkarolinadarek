@@ -8,6 +8,12 @@ import java.util.List;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.*;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 
 public class DeckDAOxml implements  DeckDAOInterface{
@@ -57,7 +63,48 @@ public class DeckDAOxml implements  DeckDAOInterface{
             e.printStackTrace();
         }
     }
+    public void writeXmlFile(ArrayList<Card> list){
 
+
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+
+            Element root = doc.createElement("Card");
+            doc.appendChild(root);
+
+            Element Details = doc.createElement("name");
+            root.appendChild(Details);
+            Element Details2 = doc.createElement("type");
+            root.appendChild(Details2);
+            Element Details3 = doc.createElement("infected");
+            root.appendChild(Details3);
+            Element Details4 = doc.createElement("deaths");
+            root.appendChild(Details4);
+            Element Details5 = doc.createElement("incubation");
+            root.appendChild(Details5);
+            Element Details6 = doc.createElement("painfulness");
+            root.appendChild(Details6);
+            Element Details7 = doc.createElement("panic_level");
+            root.appendChild(Details7);
+
+            TransformerFactory transFactory = TransformerFactory.newInstance();
+            Transformer aTransformer = transFactory.newTransformer();
+
+            DOMSource source = new DOMSource(doc);
+            try{
+                FileWriter fileWriter = new FileWriter("src/main/resources/virus2.xml");
+                StreamResult result = new StreamResult(fileWriter);
+                aTransformer.transform(source, result);
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            }
+
+        } catch (ParserConfigurationException | TransformerConfigurationException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public List<Card> getDeck() {
