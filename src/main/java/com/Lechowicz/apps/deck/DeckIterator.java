@@ -10,7 +10,7 @@ class DeckIterator implements Iterator<Card>{
     private int index = 0;
     private List<Card> viruses;
 
-    DeckIterator(DeckDAO deckdao){
+    DeckIterator(DeckDAOcsv deckdao){
         this.viruses = deckdao.getDeck();
     }
     

@@ -1,8 +1,5 @@
 package com.Lechowicz.apps.aplication;
 
-import com.Lechowicz.apps.cards.Card;
-import com.Lechowicz.apps.deck.*;
-
 import java.io.FileNotFoundException;
 
 public class Main {
@@ -17,9 +14,5 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("There is not enough cards to give to players. " + e.getMessage());
         }
-
-//        DeckDAOInterface newDao = new DeckDAOxml("src/main/resources/virus.xml");
-//        Card newCard = newDao.getCard(0);
-//        System.out.println(newCard);
     }
 }

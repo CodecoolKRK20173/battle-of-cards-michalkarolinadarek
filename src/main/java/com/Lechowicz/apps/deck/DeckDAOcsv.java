@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 import com.Lechowicz.apps.cards.*;
 
-public class DeckDAO implements DeckDAOInterface {
+public class DeckDAOcsv implements DeckDAOInterface {
 
     private File file;
     private Scanner scan;
@@ -17,7 +17,7 @@ public class DeckDAO implements DeckDAOInterface {
     private String[] virus;
     private List<Card> deck;
 
-    public DeckDAO(String filepath) throws FileNotFoundException {
+    public DeckDAOcsv(String filepath) throws FileNotFoundException {
         this.filepath = filepath;
         openFile();
         loadAllCardFromFile();
