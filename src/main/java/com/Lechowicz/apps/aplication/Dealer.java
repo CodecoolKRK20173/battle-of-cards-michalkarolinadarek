@@ -1,6 +1,7 @@
 package com.Lechowicz.apps.aplication;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -14,6 +15,9 @@ import com.Lechowicz.apps.deck.DeckController;
 import com.Lechowicz.apps.interactions.*;
 import com.Lechowicz.apps.player.AbstractPlayer;
 import com.Lechowicz.apps.player.HumanPlayer;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class Dealer {
     private final int COUNT_OF_PLAYERS = 2;
@@ -28,7 +32,8 @@ public class Dealer {
     private List<Integer> gameResults;
     private AbstractPlayer winner;
 
-    public Dealer() throws FileNotFoundException, CloneNotSupportedException {
+    public Dealer()
+            throws FileNotFoundException, CloneNotSupportedException, ParserConfigurationException, SAXException, IOException {
         initializeDeckController();
         view = new ViewTerminal();
         input = new InputManager();
@@ -37,7 +42,8 @@ public class Dealer {
         gameResults = new ArrayList<Integer>();
     }
 
-    private void initializeDeckController() throws FileNotFoundException, CloneNotSupportedException {
+    private void initializeDeckController()
+            throws FileNotFoundException, CloneNotSupportedException, ParserConfigurationException, SAXException, IOException {
         deckController = new DeckController(new DeckDAOxml("src/main/resources/virus.xml"));
     }
     
