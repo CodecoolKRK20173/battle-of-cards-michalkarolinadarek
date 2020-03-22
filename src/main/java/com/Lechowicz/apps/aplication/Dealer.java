@@ -156,9 +156,7 @@ public class Dealer {
 
     private boolean checkIfTie(List<Integer> listOfResults) {
         Set<Integer> setFromList = new HashSet<Integer>(listOfResults);
-        boolean hasDuplicates = (setFromList.size() < listOfResults.size()) ? true : false;
-        
-        return hasDuplicates;
+        return setFromList.size() < listOfResults.size();
     }
 
     private void pullFromTempStack(AbstractPlayer player){
