@@ -63,23 +63,24 @@ public class DeckDAOxml implements  DeckDAOInterface{
             }
         }
     }
-    public void writeXmlFile(List<Card> listOfCards) throws TransformerConfigurationException, ParserConfigurationException {
-        DOMSource source = getDomStructure(listOfCards);
 
+    private Transformer getTransformer() throws TransformerConfigurationException {
+        String indent = "4";
         TransformerFactory transFactory = TransformerFactory.newInstance();
-        transFactory.setAttribute("indent-number", "4"); //indent = 4
+        transFactory.setAttribute("indent-number", indent);
         Transformer aTransformer = transFactory.newTransformer();
         aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        return aTransformer;
+    }
 
+    public void writeXmlFile(List<Card> listOfCards) throws TransformerException, ParserConfigurationException, IOException {
 
-        try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/virus2.xml");
-            StreamResult result = new StreamResult(fileWriter);
-            aTransformer.transform(source, result);
-        } catch (TransformerException | IOException e) {
-            e.printStackTrace();
-        }
+        Transformer aTransformer = getTransformer();
+        DOMSource source = getDomStructure(listOfCards);
 
+        FileWriter fileWriter = new FileWriter("src/main/resources/virus2.xml"); //replace filepath when done
+        StreamResult result = new StreamResult(fileWriter);
+        aTransformer.transform(source, result);
     }
 
     private HashMap<String, Integer> getParameters(List<String> titles, Card card){
@@ -141,37 +142,110 @@ public class DeckDAOxml implements  DeckDAOInterface{
     @Override
     public void updateDeck(List<Card> deck) {
         this.deck = deck;
-        //saveToXML
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateCard(Card card, int index) {
         deck.remove(index);
         deck.add(index, card);
-        //saveToXML
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteCard(Card card) {
         deck.remove(card);
-        //saveToXML
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteCard(int index) {
         deck.remove(index);
-        //saveToXML
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public void deleteDeck() {
         deck.clear();
-        //saveToXML
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void addCard(Card card) {
         deck.add(card);
-        //saveToXML
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
     }
 }
