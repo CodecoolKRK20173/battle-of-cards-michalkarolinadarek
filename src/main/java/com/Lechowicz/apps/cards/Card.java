@@ -105,7 +105,7 @@ public class Card implements Comparable<Card>, Cloneable {
     }
 
     public int getPanicLevel(){
-        return parametersMap.get(titles[Attributes.PAINFULNESS.getIndex()]);
+        return parametersMap.get(titles[Attributes.PANIC_LEVEL.getIndex()]);
     }
 
     public int getType(){

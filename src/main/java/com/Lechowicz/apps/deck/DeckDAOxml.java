@@ -3,16 +3,15 @@ package com.Lechowicz.apps.deck;
 import com.Lechowicz.apps.cards.Card;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.*;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
@@ -64,47 +63,68 @@ public class DeckDAOxml implements  DeckDAOInterface{
             }
         }
     }
-    public void writeXmlFile(ArrayList<Card> list){
 
+    private Transformer getTransformer() throws TransformerConfigurationException {
+        String indent = "4";
+        TransformerFactory transFactory = TransformerFactory.newInstance();
+        transFactory.setAttribute("indent-number", indent);
+        Transformer aTransformer = transFactory.newTransformer();
+        aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        return aTransformer;
+    }
 
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
+    public void writeXmlFile(List<Card> listOfCards) throws TransformerException, ParserConfigurationException, IOException {
 
-            Element root = doc.createElement("Card");
-            doc.appendChild(root);
+        Transformer aTransformer = getTransformer();
+        DOMSource source = getDomStructure(listOfCards);
 
-            Element Details = doc.createElement("name");
-            root.appendChild(Details);
-            Element Details2 = doc.createElement("type");
-            root.appendChild(Details2);
-            Element Details3 = doc.createElement("infected");
-            root.appendChild(Details3);
-            Element Details4 = doc.createElement("deaths");
-            root.appendChild(Details4);
-            Element Details5 = doc.createElement("incubation");
-            root.appendChild(Details5);
-            Element Details6 = doc.createElement("painfulness");
-            root.appendChild(Details6);
-            Element Details7 = doc.createElement("panic_level");
-            root.appendChild(Details7);
+        FileWriter fileWriter = new FileWriter("src/main/resources/virus2.xml"); //replace filepath when done
+        StreamResult result = new StreamResult(fileWriter);
+        aTransformer.transform(source, result);
+    }
 
-            TransformerFactory transFactory = TransformerFactory.newInstance();
-            Transformer aTransformer = transFactory.newTransformer();
-
-            DOMSource source = new DOMSource(doc);
-            try{
-                FileWriter fileWriter = new FileWriter("src/main/resources/virus2.xml");
-                StreamResult result = new StreamResult(fileWriter);
-                aTransformer.transform(source, result);
-            } catch (TransformerException e) {
-                e.printStackTrace();
-            }
-
-        } catch (ParserConfigurationException | TransformerConfigurationException | IOException e) {
-            e.printStackTrace();
+    private HashMap<String, Integer> getParameters(List<String> titles, Card card){
+        List<Integer> data;
+        data = Arrays.asList(card.getType(), card.getInfectvity(), card.getDeaths(), card.getIncubation(), card.getPainfulness(), card.getPanicLevel());
+        HashMap<String, Integer> param = new HashMap<>();
+        Integer index = 0;
+        for (String title : titles) {
+            param.put(title, data.get(index++));
         }
+
+        return param;
+    }
+
+    private DOMSource getDomStructure(List<Card> listOfCards) throws ParserConfigurationException {
+        HashMap<String, Integer> parameters;
+        List<String> titles = Arrays.asList("type", "infected", "deaths", "incubation", "painfulness", "panic_level");
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.newDocument();
+
+        //Initialize root as viruses
+        Element root = doc.createElement("viruses");
+        doc.appendChild(root);
+
+        for (Card card : listOfCards) {
+            parameters = getParameters(titles, card);
+
+            //Initialize single card
+            Element eCard = doc.createElement("card");
+            root.appendChild(eCard);
+            //Initialize card name
+            Element Details = doc.createElement("name");
+            Details.appendChild(doc.createTextNode(String.format("%s", card.getName())));
+            eCard.appendChild(Details);
+            //Initialize card stat
+            for(String title: titles){
+                Details = doc.createElement(title);
+                Details.appendChild(doc.createTextNode(String.format("%s", parameters.get(title))));
+                eCard.appendChild(Details);
+            }
+        }
+        return new DOMSource(doc);
     }
 
     @Override
@@ -121,31 +141,111 @@ public class DeckDAOxml implements  DeckDAOInterface{
 
     @Override
     public void updateDeck(List<Card> deck) {
-
+        this.deck = deck;
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateCard(Card card, int index) {
-
+        deck.remove(index);
+        deck.add(index, card);
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteCard(Card card) {
-
+        deck.remove(card);
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteCard(int index) {
+        deck.remove(index);
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public void deleteDeck() {
-
+        deck.clear();
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void addCard(Card card) {
-
+        deck.add(card);
+        try {
+            writeXmlFile(deck);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            //error with transform cause
+            e.printStackTrace();
+        }
     }
 }
