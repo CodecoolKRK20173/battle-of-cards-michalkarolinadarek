@@ -64,7 +64,7 @@ public class DeckDAOxml implements  DeckDAOInterface{
             }
         }
     }
-    public void writeXmlFile(List<Card> list){
+    public void writeXmlFile(List<Card> listOfCards){
 
 
         try {
@@ -75,32 +75,36 @@ public class DeckDAOxml implements  DeckDAOInterface{
             //Initialize root as viruses
             Element root = doc.createElement("viruses");
             doc.appendChild(root);
-            //Initialize single card
-            Element card = doc.createElement("card");
-            root.appendChild(card);
-            //Initialize card
-            Element Details = doc.createElement("name");
-            Details.appendChild(doc.createTextNode("Ebola"));
-            card.appendChild(Details);
-            Element Details2 = doc.createElement("type");
-            Details2.appendChild(doc.createTextNode("2"));
-            card.appendChild(Details2);
-            Element Details3 = doc.createElement("infected");
-            Details3.appendChild(doc.createTextNode("23"));
-            card.appendChild(Details3);
-            Element Details4 = doc.createElement("deaths");
-            Details4.appendChild(doc.createTextNode("56"));
-            card.appendChild(Details4);
-            Element Details5 = doc.createElement("incubation");
-            Details5.appendChild(doc.createTextNode("673"));
-            card.appendChild(Details5);
-            Element Details6 = doc.createElement("painfulness");
-            Details6.appendChild(doc.createTextNode("543"));
-            card.appendChild(Details6);
-            Element Details7 = doc.createElement("panic_level");
-            Details7.appendChild(doc.createTextNode("7865"));
-            card.appendChild(Details7);
-            //End initialize card
+            for(Card card: listOfCards){
+                //Initialize single card
+                Element eCard = doc.createElement("card");
+                root.appendChild(eCard);
+                //Initialize card
+                Element Details = doc.createElement("name");
+                Details.appendChild(doc.createTextNode(card.getName()));
+                eCard.appendChild(Details);
+                Element Details2 = doc.createElement("type");
+                Details2.appendChild(doc.createTextNode(String.format("%s", card.getType())));
+                eCard.appendChild(Details2);
+                Element Details3 = doc.createElement("infected");
+                Details3.appendChild(doc.createTextNode(String.format("%s", card.getInfectvity())));
+                eCard.appendChild(Details3);
+                Element Details4 = doc.createElement("deaths");
+                Details4.appendChild(doc.createTextNode(String.format("%s", card.getDeaths())));
+                eCard.appendChild(Details4);
+                Element Details5 = doc.createElement("incubation");
+                Details5.appendChild(doc.createTextNode(String.format("%s", card.getIncubation())));
+                eCard.appendChild(Details5);
+                Element Details6 = doc.createElement("painfulness");
+                Details6.appendChild(doc.createTextNode(String.format("%s", card.getPainfulness())));
+                eCard.appendChild(Details6);
+                Element Details7 = doc.createElement("panic_level");
+                Details7.appendChild(doc.createTextNode(String.format("%s", card.getPanicLevel())));
+                eCard.appendChild(Details7);
+                //End initialize card
+            }
+
+
             TransformerFactory transFactory = TransformerFactory.newInstance();
             Transformer aTransformer = transFactory.newTransformer();
 
