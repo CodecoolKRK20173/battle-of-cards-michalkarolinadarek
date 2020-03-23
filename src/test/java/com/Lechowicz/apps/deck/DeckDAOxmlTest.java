@@ -3,6 +3,7 @@ package com.Lechowicz.apps.deck;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -20,6 +21,9 @@ public class DeckDAOxmlTest {
         } catch (SAXException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            // error with transform settings
             e.printStackTrace();
         }
 

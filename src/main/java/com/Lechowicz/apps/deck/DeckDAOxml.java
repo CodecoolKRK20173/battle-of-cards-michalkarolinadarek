@@ -3,6 +3,8 @@ package com.Lechowicz.apps.deck;
 import com.Lechowicz.apps.cards.Card;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.w3c.dom.*;
@@ -61,64 +63,67 @@ public class DeckDAOxml implements  DeckDAOInterface{
             }
         }
     }
-    public void writeXmlFile(List<Card> listOfCards){
+    public void writeXmlFile(List<Card> listOfCards) throws TransformerConfigurationException, ParserConfigurationException {
+        DOMSource source = getDomStructure(listOfCards);
+
+        TransformerFactory transFactory = TransformerFactory.newInstance();
+        transFactory.setAttribute("indent-number", "4"); //indent = 4
+        Transformer aTransformer = transFactory.newTransformer();
+        aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
 
         try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
-
-            //Initialize root as viruses
-            Element root = doc.createElement("viruses");
-            doc.appendChild(root);
-            for(Card card: listOfCards){
-                //Initialize single card
-                Element eCard = doc.createElement("card");
-                root.appendChild(eCard);
-                //Initialize card
-                Element Details = doc.createElement("name");
-                Details.appendChild(doc.createTextNode(card.getName()));
-                eCard.appendChild(Details);
-                Element Details2 = doc.createElement("type");
-                Details2.appendChild(doc.createTextNode(String.format("%s", card.getType())));
-                eCard.appendChild(Details2);
-                Element Details3 = doc.createElement("infected");
-                Details3.appendChild(doc.createTextNode(String.format("%s", card.getInfectvity())));
-                eCard.appendChild(Details3);
-                Element Details4 = doc.createElement("deaths");
-                Details4.appendChild(doc.createTextNode(String.format("%s", card.getDeaths())));
-                eCard.appendChild(Details4);
-                Element Details5 = doc.createElement("incubation");
-                Details5.appendChild(doc.createTextNode(String.format("%s", card.getIncubation())));
-                eCard.appendChild(Details5);
-                Element Details6 = doc.createElement("painfulness");
-                Details6.appendChild(doc.createTextNode(String.format("%s", card.getPainfulness())));
-                eCard.appendChild(Details6);
-                Element Details7 = doc.createElement("panic_level");
-                Details7.appendChild(doc.createTextNode(String.format("%s", card.getPanicLevel())));
-                eCard.appendChild(Details7);
-                //End initialize card
-            }
-
-
-            TransformerFactory transFactory = TransformerFactory.newInstance();
-            transFactory.setAttribute("indent-number", "4"); //indent = 4
-            Transformer aTransformer = transFactory.newTransformer();
-            aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
-            DOMSource source = new DOMSource(doc);
-            try{
-                FileWriter fileWriter = new FileWriter("src/main/resources/virus2.xml");
-                StreamResult result = new StreamResult(fileWriter);
-                aTransformer.transform(source, result);
-            } catch (TransformerException e) {
-                e.printStackTrace();
-            }
-
-        } catch (ParserConfigurationException | TransformerConfigurationException | IOException e) {
+            FileWriter fileWriter = new FileWriter("src/main/resources/virus2.xml");
+            StreamResult result = new StreamResult(fileWriter);
+            aTransformer.transform(source, result);
+        } catch (TransformerException | IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    private HashMap<String, Integer> getParameters(List<String> titles, Card card){
+        List<Integer> data;
+        data = Arrays.asList(card.getType(), card.getInfectvity(), card.getDeaths(), card.getIncubation(), card.getPainfulness(), card.getPanicLevel());
+        HashMap<String, Integer> param = new HashMap<>();
+        Integer index = 0;
+        for (String title : titles) {
+            param.put(title, data.get(index++));
+        }
+
+        return param;
+    }
+
+    private DOMSource getDomStructure(List<Card> listOfCards) throws ParserConfigurationException {
+        HashMap<String, Integer> parameters;
+        List<String> titles = Arrays.asList("type", "infected", "deaths", "incubation", "painfulness", "panic_level");
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.newDocument();
+
+        //Initialize root as viruses
+        Element root = doc.createElement("viruses");
+        doc.appendChild(root);
+
+        for (Card card : listOfCards) {
+            parameters = getParameters(titles, card);
+
+            //Initialize single card
+            Element eCard = doc.createElement("card");
+            root.appendChild(eCard);
+            //Initialize card name
+            Element Details = doc.createElement("name");
+            Details.appendChild(doc.createTextNode(String.format("%s", card.getName())));
+            eCard.appendChild(Details);
+            //Initialize card stat
+            for(String title: titles){
+                Details = doc.createElement(title);
+                Details.appendChild(doc.createTextNode(String.format("%s", parameters.get(title))));
+                eCard.appendChild(Details);
+            }
+        }
+        return new DOMSource(doc);
     }
 
     @Override
