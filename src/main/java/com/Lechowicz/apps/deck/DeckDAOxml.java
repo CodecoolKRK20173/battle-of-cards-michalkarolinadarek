@@ -9,10 +9,7 @@ import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.*;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
@@ -106,7 +103,9 @@ public class DeckDAOxml implements  DeckDAOInterface{
 
 
             TransformerFactory transFactory = TransformerFactory.newInstance();
+            transFactory.setAttribute("indent-number", "4"); //indent = 4
             Transformer aTransformer = transFactory.newTransformer();
+            aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
             DOMSource source = new DOMSource(doc);
             try{
