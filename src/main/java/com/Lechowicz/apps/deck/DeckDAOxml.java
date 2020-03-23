@@ -64,7 +64,7 @@ public class DeckDAOxml implements  DeckDAOInterface{
             }
         }
     }
-    public void writeXmlFile(ArrayList<Card> list){
+    public void writeXmlFile(List<Card> list){
 
 
         try {
@@ -72,24 +72,35 @@ public class DeckDAOxml implements  DeckDAOInterface{
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
 
-            Element root = doc.createElement("Card");
+            //Initialize root as viruses
+            Element root = doc.createElement("viruses");
             doc.appendChild(root);
-
+            //Initialize single card
+            Element card = doc.createElement("card");
+            root.appendChild(card);
+            //Initialize card
             Element Details = doc.createElement("name");
-            root.appendChild(Details);
+            Details.appendChild(doc.createTextNode("Ebola"));
+            card.appendChild(Details);
             Element Details2 = doc.createElement("type");
-            root.appendChild(Details2);
+            Details2.appendChild(doc.createTextNode("2"));
+            card.appendChild(Details2);
             Element Details3 = doc.createElement("infected");
-            root.appendChild(Details3);
+            Details3.appendChild(doc.createTextNode("23"));
+            card.appendChild(Details3);
             Element Details4 = doc.createElement("deaths");
-            root.appendChild(Details4);
+            Details4.appendChild(doc.createTextNode("56"));
+            card.appendChild(Details4);
             Element Details5 = doc.createElement("incubation");
-            root.appendChild(Details5);
+            Details5.appendChild(doc.createTextNode("673"));
+            card.appendChild(Details5);
             Element Details6 = doc.createElement("painfulness");
-            root.appendChild(Details6);
+            Details6.appendChild(doc.createTextNode("543"));
+            card.appendChild(Details6);
             Element Details7 = doc.createElement("panic_level");
-            root.appendChild(Details7);
-
+            Details7.appendChild(doc.createTextNode("7865"));
+            card.appendChild(Details7);
+            //End initialize card
             TransformerFactory transFactory = TransformerFactory.newInstance();
             Transformer aTransformer = transFactory.newTransformer();
 
@@ -121,31 +132,38 @@ public class DeckDAOxml implements  DeckDAOInterface{
 
     @Override
     public void updateDeck(List<Card> deck) {
-
+        this.deck = deck;
+        //saveToXML
     }
 
     @Override
     public void updateCard(Card card, int index) {
-
+        deck.remove(index);
+        deck.add(index, card);
+        //saveToXML
     }
 
     @Override
     public void deleteCard(Card card) {
-
+        deck.remove(card);
+        //saveToXML
     }
 
     @Override
     public void deleteCard(int index) {
-
+        deck.remove(index);
+        //saveToXML
     }
 
     @Override
     public void deleteDeck() {
-
+        deck.clear();
+        //saveToXML
     }
 
     @Override
     public void addCard(Card card) {
-
+        deck.add(card);
+        //saveToXML
     }
 }
